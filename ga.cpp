@@ -9,12 +9,12 @@
 #include <iostream>
 #include <algorithm>    // std::sort
 
-
 struct Individual {
 	double fitness;
 	bool[] variables;
 }
 
+// function for sort to work on the Individual struct
 bool compare_fitness (Individual ind1, Individual ind2) {
     return ind1.fitness < ind2.fitness;
 }
@@ -32,7 +32,7 @@ const int num_variables;
 std::vector <Individual> population;
 std::vector <Individual> breeders;
 
-int main(int argc, char* argv[]) {
+int ga(char* argv[]) {
 
     filename = argv[1];
     population = std::atoi(argv[2]);
