@@ -24,24 +24,33 @@ void pbil(int numBools, int numClauses, int** clauses, int numSamples){
 
     int i = 0;
     while (i < MAX_ITERATIONS){
-        
-        bool** samplesArray = new bool*[numSamples];
+        vector<Individuals> samplesVector = new vector<Individuals>(numSamples);
+        //bool** samplesArray = new bool*[numSamples];
         for (int i=0; i < numSamples; i++){
             // we want to generate a sample based on the probabilities
-            samplesArray[i] = new bool[numBools];
+            Individual sample;
+            bool* vars = new bool[numBools];
+             
             for(int j=0; j < numBools; j++){
                 double randNum = (double) rand() / RAND_MAX;
                 if (randNum < probabilities[j]){
                     // set to false
-                    samplesArray[i][j] = false;
+                    vars[j] = false;
                 }
                 else {
-                    samplesArray[i][j] = true;
+                    vars[j] = true;
                 }
             }
-
+            double fitness = evaluateFitness(vars, numClauses, clauses);
+            sample.fitness = fitness;
+            sample.variables = vars;
+            samplesVector.push_back(sample);
         } // end for loop creating samples
 
+         
+        Individual best = *max_element(samplesVector);
+        Individual worst = *min_element(samplesVector);
+        // now update the probability vectors based on these; 
 
 
         i++;

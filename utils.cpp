@@ -10,6 +10,12 @@ using namespace std;
 typedef struct Individual {
     double fitness;
     bool* variables;
+
+    bool operator< (const Individual &rightInd) const {
+        //compares fitness
+        return fitness < rightInd.fitness;
+    }
+
 } Individuals;
 
 
