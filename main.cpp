@@ -2,7 +2,7 @@
 //  main.cpp
 //  
 //
-//  Created by Ian Squiers on 9/25/18.
+//  Created by Ian Squiers and Erik Wurman
 //
 
 #include <stdio.h>
@@ -12,7 +12,7 @@
 #include <sstream>
 
 
-bool DEBUG_ON = true;
+bool DEBUG_ON = false;
 
 using namespace std;
 int** parse(char* filename, int& numClauses, int& numVariables);

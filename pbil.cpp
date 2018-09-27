@@ -4,7 +4,7 @@
  */
 
 #include <vector>
-#include <ctime>
+#include "utils.cpp"
 
 
 using namespace std;
@@ -13,9 +13,8 @@ using namespace std;
 int MAX_ITERATIONS = 1000;
 
 void pbil(int numBools){
-    double* probabilities = (double*) malloc(sizeof(double)*numBools);
-    
-    clock_t start = clock();
+    double* probabilities = new double[numBools];
+     
     int i = 0;
     while (i < MAX_ITERATIONS){
         i++;
