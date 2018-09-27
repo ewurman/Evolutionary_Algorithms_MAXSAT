@@ -9,6 +9,7 @@
 #include <iostream>
 #include <algorithm>    // std::sort
 #include <string>
+#include <math.h>
 
 struct Individual {
 	double fitness;
@@ -31,6 +32,7 @@ char * algorithm;
 int num_variables;
 
 std::vector <Individual> population;
+std::vector <Individual> next_pop;
 
 void ga(char* argv[]) {
 
@@ -47,10 +49,10 @@ void ga(char* argv[]) {
 
 void genetic(int num_variables) {
 	// Generate Population
-    
+    bool * temp;
 	for (int i = 0; i < population_size; i++) {
 		Individual new_ind;
-        bool * temp = new bool[num_variables];
+        temp = new bool[num_variables];
         new_ind.variables = temp;
 		for (int j = 0; j < num_variables; j++) {
 			double r = (double)rand() / (double)RAND_MAX; //not the best for random nums but works
@@ -67,17 +69,50 @@ void genetic(int num_variables) {
 
 }
 
-void rank() {
-    std::sort (population.begin(), population.end(), compare_fitness); // could also use partial_sort http: www.cplusplus.com/reference/algorithm/partial_sort/
-    double sum = 0;
-    double probability;
-    for (int i = 1; i < population.size(); i++) {
+int sum_to(int num) {
+    int sum = 0;
+    for (int i = 0; i < num + 1; i++) {
         sum += i;
-        Individual temp = population.back();
-        population.pop_back();
-        probability = i/sum;
-        double r = (double)rand() / (double)RAND_MAX; //not the best for random nums but works
-        if (r < probability) {
+    }
+    return sum;
+}
+
+double * probablities_by_rank() {
+    int sum = sum_to(population_size);
+    double probability_of[num_variables];
+    for (int i = 1; i < population_size + 1; i++) {
+        probability_of[i] = i/sum;
+    }
+    return probability_of;
+}
+
+double boltz_sum() {
+    double sum = 0;
+    for (unsigned i = 0; i < population_size; i++) {
+        sum += exp(population[i].fitness);
+    }
+    return sum;
+}
+
+double * probabilities_by_boltz() {
+    int sum = boltz_sum();
+    double probability_of[num_variables];
+    for (int i = 1; i < population_size + 1; i++) {
+        probability_of[i] = i/sum;
+    }
+    return probability_of;
+}
+
+void rank() {
+    std::sort (population.begin(), population.end(), compare_fitness);
+    double * probability_of = probablities_by_rank();
+    for (int i = 0; i < population_size; i++) {
+        double r = (double)rand() / (double)RAND_MAX;
+        for (int j = population_size; j > 0; j--) {
+            if (r < probability_of[j]) {
+                next_pop.push_back(population.at(j));
+                std::cout << "Selecting rank: " << j;
+            }
         }
     }
 }
@@ -91,6 +126,7 @@ void tournament() {
             std::cout << "r1 = r2 and range is " << population.size();
         }
         if (compare_fitness(population.at(r1), population.at(r2))) {
+            next_pop.
         }
     }
 }
