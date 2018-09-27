@@ -10,11 +10,7 @@
 #include <algorithm>    // std::sort
 #include <string>
 #include <math.h>
-
-struct Individual {
-	double fitness;
-    bool * variables;
-};
+#include "utils.cpp"
 
 // function for sort to work on the Individual struct
 bool compare_fitness (Individual ind1, Individual ind2) {

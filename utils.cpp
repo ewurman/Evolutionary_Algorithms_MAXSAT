@@ -7,6 +7,11 @@
 
 using namespace std;
 
+typedef struct Individual {
+    double fitness;
+    bool* variables;
+} Individuals;
+
 
 
 double evaluateFitness(bool* vars, int numClauses, int** clauses){
