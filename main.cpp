@@ -12,17 +12,18 @@
 #include <sstream>
 
 
-bool DEBUG_ON = false;
+bool DEBUG_ON = true;
 
 using namespace std;
-int** parse(char* filename, int& numClauses);
+int** parse(char* filename, int& numClauses, int& numVariables);
 void printClauses(int** clauses, int numClauses);
 
 
 int main(int argc, char* argv[]) {
     char* filename = argv[1];
     int numClauses;
-    int** clauses = parse(filename, numClauses);
+    int numVariables;
+    int** clauses = parse(filename, numClauses, numVariables);
     if (DEBUG_ON){
         cout << "numClauses: " << numClauses << endl; 
         printClauses(clauses, numClauses);
@@ -39,13 +40,17 @@ int main(int argc, char* argv[]) {
     return 0;
 }
 
-
-int** parse(char* filename, int& numClauses){
+/*
+ * This is the parsing function for reading in the
+ * .cnf files and returning our array of array of ints and
+ * the number of clauses and number of variables
+ */
+int** parse(char* filename, int& numClauses, int& numVariables){
     // parse the file and return the array of each clause array
     // of bool indices.
     ifstream infile(filename);
     int **clauses;
-    int numVariables = 0;
+    numVariables = 0;
     numClauses = 0;
     bool initialized = false;
     int clauseNum = 0;
@@ -85,14 +90,14 @@ int** parse(char* filename, int& numClauses){
             }
         }
         else if (initialized){ 
-            // grab each index from line, subtract by 1 (they are 1-based)
+            // grab each index from line, 
             // then add that index to the end of the clause array.
             
             if (DEBUG_ON){
                 cout << "in initialized else if" <<endl; 
             }
             
-            int varIndex = stoi( line.substr(0,line.find(" "))) - 1;
+            int varIndex = stoi( line.substr(0,line.find(" ")));
             int clauseIndex = 0; 
 
             if(DEBUG_ON){
@@ -112,7 +117,7 @@ int** parse(char* filename, int& numClauses){
             }
             clauses[clauseNum] = new int[numSpaces+1]; 
 
-            while (varIndex != -1) { //0 ends the line and we subtract 1
+            while (varIndex != 0) { //0 ends the line 
                 clauses[clauseNum][clauseIndex] = varIndex;
                 clauseIndex++;
                 line = line.substr(line.find(" ")+1); 
@@ -120,10 +125,10 @@ int** parse(char* filename, int& numClauses){
                     cout << "substr of line is now:" <<endl;
                     cout << line << endl; 
                 }
-                varIndex = stoi( line.substr(0,line.find(" "))) - 1;
+                varIndex = stoi( line.substr(0,line.find(" ")));
             }
             //Add -1 to end to denote end of the clause
-            clauses[clauseNum][clauseIndex] = -1;
+            clauses[clauseNum][clauseIndex] = 0;
             clauseNum++;
         }
         
@@ -132,7 +137,9 @@ int** parse(char* filename, int& numClauses){
 }
 
 
-//TODO: test parsing works by writing a debug printer for clauses
+/* 
+ * Useful print function for debugging the parser
+ */
 void printClauses(int** clauses, int numClauses){
     cout << "printing clauses: numClauses = " << numClauses <<endl;
     
@@ -141,7 +148,7 @@ void printClauses(int** clauses, int numClauses){
         int j = 0;
         int nextVar = clauses[i][j];
         //cout << "firstvar is " << nextVar;
-        while (nextVar != -1){
+        while (nextVar != 0){
             cout << nextVar << " ";
             j++;
             nextVar = clauses[i][j];
