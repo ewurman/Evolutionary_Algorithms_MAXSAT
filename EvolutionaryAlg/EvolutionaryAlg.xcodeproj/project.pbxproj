@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6D07249D215B18E800F831EA /* ga.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D07249B215B18E700F831EA /* ga.cpp */; };
+		6D07249D215B18E800F831EA /* ga2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D07249B215B18E700F831EA /* ga2.cpp */; };
 		6D07249E215B18E800F831EA /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D07249C215B18E700F831EA /* main.cpp */; };
 		6D47FE6B215B22D5005D0017 /* pbil.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D47FE6A215B22D5005D0017 /* pbil.cpp */; };
 /* End PBXBuildFile section */
@@ -26,7 +26,7 @@
 
 /* Begin PBXFileReference section */
 		6D072491215B189D00F831EA /* EvolutionaryAlg */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = EvolutionaryAlg; sourceTree = BUILT_PRODUCTS_DIR; };
-		6D07249B215B18E700F831EA /* ga.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ga.cpp; path = ../../ga.cpp; sourceTree = "<group>"; };
+		6D07249B215B18E700F831EA /* ga2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = ga2.cpp; path = ../../ga2.cpp; sourceTree = "<group>"; };
 		6D07249C215B18E700F831EA /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../main.cpp; sourceTree = "<group>"; };
 		6D47FE6A215B22D5005D0017 /* pbil.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = pbil.cpp; path = ../../pbil.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -63,7 +63,7 @@
 			children = (
 				6D07249C215B18E700F831EA /* main.cpp */,
 				6D47FE6A215B22D5005D0017 /* pbil.cpp */,
-				6D07249B215B18E700F831EA /* ga.cpp */,
+				6D07249B215B18E700F831EA /* ga2.cpp */,
 			);
 			path = EvolutionaryAlg;
 			sourceTree = "<group>";
@@ -124,7 +124,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6D07249D215B18E800F831EA /* ga.cpp in Sources */,
+				6D07249D215B18E800F831EA /* ga2.cpp in Sources */,
 				6D07249E215B18E800F831EA /* main.cpp in Sources */,
 				6D47FE6B215B22D5005D0017 /* pbil.cpp in Sources */,
 			);
