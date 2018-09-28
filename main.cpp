@@ -1,6 +1,6 @@
 //
 //  main.cpp
-//  
+//
 //
 //  Created by Ian Squiers and Erik Wurman
 //
@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <fstream>
 #include "pbil.cpp"
-#include "ga.cpp"
+#include "ga2.cpp"
 #include <sstream>
 
 
@@ -25,7 +25,7 @@ int main(int argc, char* argv[]) {
     int numVariables;
     int** clauses = parse(filename, numClauses, numVariables);
     if (DEBUG_ON){
-        cout << "numClauses: " << numClauses << endl; 
+        cout << "numClauses: " << numClauses << endl;
         printClauses(clauses, numClauses);
     }
     
@@ -59,7 +59,7 @@ int** parse(char* filename, int& numClauses, int& numVariables){
         if (line[0] == 'c'){
             continue; //lines that start with c are comments
         }
-        if (line[0] == 'p'){ 
+        if (line[0] == 'p'){
             // then the begining is "p cnf "
             int pcnf = line.find("p cnf ");
             if (DEBUG_ON){
@@ -67,15 +67,15 @@ int** parse(char* filename, int& numClauses, int& numVariables){
                 cout << line <<endl;
                 cout << "pcnf int is: " << pcnf <<endl;
             }
-            string subline = line.substr(pcnf+6); 
-            //six is length of "p cnf " 
+            string subline = line.substr(pcnf+6);
+            //six is length of "p cnf "
             int space = subline.find(" ");
             if (DEBUG_ON){
                 cout << "substr of line is now:" <<endl;
-                cout << subline << endl; 
+                cout << subline << endl;
             }
 
-            numVariables = stoi(subline.substr(0,space)); 
+            numVariables = stoi(subline.substr(0,space));
             numClauses = stoi(subline.substr(space));
             while (numClauses == 0){
                 space = subline.find(" ");
@@ -89,16 +89,16 @@ int** parse(char* filename, int& numClauses, int& numVariables){
                 cout << "loop initialized" <<endl;
             }
         }
-        else if (initialized){ 
-            // grab each index from line, 
+        else if (initialized){
+            // grab each index from line,
             // then add that index to the end of the clause array.
-            
+
             if (DEBUG_ON){
-                cout << "in initialized else if" <<endl; 
+                cout << "in initialized else if" <<endl;
             }
-            
+
             int varIndex = stoi( line.substr(0,line.find(" ")));
-            int clauseIndex = 0; 
+            int clauseIndex = 0;
 
             if(DEBUG_ON){
                 cout << "starting the loop" <<endl;
@@ -111,19 +111,19 @@ int** parse(char* filename, int& numClauses, int& numVariables){
                     numSpaces++;
                 }
             }
-            
+
             if (DEBUG_ON){
                 cout << "numSpaces = " << numSpaces << endl;
             }
-            clauses[clauseNum] = new int[numSpaces+1]; 
+            clauses[clauseNum] = new int[numSpaces+1];
 
-            while (varIndex != 0) { //0 ends the line 
+            while (varIndex != 0) { //0 ends the line
                 clauses[clauseNum][clauseIndex] = varIndex;
                 clauseIndex++;
-                line = line.substr(line.find(" ")+1); 
+                line = line.substr(line.find(" ")+1);
                 if (DEBUG_ON){
                     cout << "substr of line is now:" <<endl;
-                    cout << line << endl; 
+                    cout << line << endl;
                 }
                 varIndex = stoi( line.substr(0,line.find(" ")));
             }
@@ -131,20 +131,20 @@ int** parse(char* filename, int& numClauses, int& numVariables){
             clauses[clauseNum][clauseIndex] = 0;
             clauseNum++;
         }
-        
+
     }
     return clauses;
 }
 
 
-/* 
+/*
  * Useful print function for debugging the parser
  */
 void printClauses(int** clauses, int numClauses){
     cout << "printing clauses: numClauses = " << numClauses <<endl;
-    
+
     for(int i = 0; i < numClauses; i++){
-        //int* clause = clauses[i]; 
+        //int* clause = clauses[i];
         int j = 0;
         int nextVar = clauses[i][j];
         //cout << "firstvar is " << nextVar;
