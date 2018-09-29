@@ -28,7 +28,7 @@ int main(int argc, char* argv[]) {
         cout << "numClauses: " << numClauses << endl;
         printClauses(clauses, numClauses);
     }
-    
+
     /*
     if (*argv[8] == 'g') {
         ga(argv);

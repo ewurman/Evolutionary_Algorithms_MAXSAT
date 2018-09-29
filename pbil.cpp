@@ -30,7 +30,7 @@ void pbil(int numBools, int numClauses, int** clauses, int numSamples){
             // we want to generate a sample based on the probabilities
             Individual sample;
             bool* vars = new bool[numBools];
-             
+
             for(int j=0; j < numBools; j++){
                 double randNum = (double) rand() / RAND_MAX;
                 if (randNum < probabilities[j]){
@@ -47,15 +47,15 @@ void pbil(int numBools, int numClauses, int** clauses, int numSamples){
             samplesVector.push_back(sample);
         } // end for loop creating samples
 
-         
+
         Individual best = *max_element(samplesVector);
         Individual worst = *min_element(samplesVector);
-        // now update the probability vectors based on these; 
+        // now update the probability vectors based on these;
 
 
         i++;
     } //end while loop for iterations
-    
+
 }
 
 
