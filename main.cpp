@@ -7,9 +7,11 @@
 
 #include <stdio.h>
 #include <fstream>
-#include "pbil.cpp"
-#include "ga2.cpp"
 #include <sstream>
+#include <iostream>
+#include "pbil.cpp"
+//#include "ga2.cpp"
+
 
 
 bool DEBUG_ON = false;
@@ -28,7 +30,21 @@ int main(int argc, char* argv[]) {
         cout << "numClauses: " << numClauses << endl;
         printClauses(clauses, numClauses);
     }
-    
+     
+    //TODO: This isn't working
+    if (strcmp(argv[8],"p")){
+        cout << "last parameter is p" << endl;
+        int numSamples = stoi(argv[2]);
+        double posLR = stod(argv[3]);
+        double negLR = stod(argv[4]);
+        double mutateProb = stod(argv[5]);
+        double mutateVal = stod(argv[6]);
+        int numIterations = stoi(argv[7]);
+
+        pbil(numVariables, numClauses, clauses, numSamples, posLR, negLR, mutateProb, mutateVal, numIterations);
+    }
+
+
     /*
     if (*argv[8] == 'g') {
         ga(argv);
@@ -153,9 +169,9 @@ void printClauses(int** clauses, int numClauses){
             j++;
             nextVar = clauses[i][j];
         }
-        cout << clauses[i][j] << endl;
-
+        cout << clauses[i][j] << endl; 
     }
+    cout << "Done printing clauses" <<endl;
 
 }
 

@@ -15,6 +15,7 @@ int MAX_ITERATIONS = 1000;
 
 
 void pbil(int numBools, int numClauses, int** clauses, int numSamples, double posLR, double negLR, double mutateProb, double mutateVal, int iterations){
+    cout << "Entered PBIL algorithm" <<endl;
     double* probabilities = new double[numBools];
     // initialize these all to be 0.5
     // A higher probability means more likely to be true
@@ -79,8 +80,17 @@ void pbil(int numBools, int numClauses, int** clauses, int numSamples, double po
     } //end while loop for iterations
     
     //NOW round probabilities and evaluate and return score?
-
-
+    bool* finalResult = new bool[numBools];
+    for (int i = 0; i < numBools; i++){
+        if (probabilities[i] >= 0.5){
+            finalResult[i] = true;
+        }
+        else{
+            finalResult[i] = false;
+        }
+    }
+    double score = evaluateFitness(finalResult, numClauses, clauses);
+    cout << "PBIL finished with a fitness of " << score << endl;
 }
 
 
