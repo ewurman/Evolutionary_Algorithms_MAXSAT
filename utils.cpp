@@ -13,6 +13,7 @@ using namespace std;
 #include <vector>
 
 typedef struct Individual {
+    int id;
     double fitness;
     bool* variables;
 

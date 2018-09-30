@@ -29,14 +29,7 @@ int main(int argc, char* argv[]) {
         printClauses(clauses, numClauses);
     }
 
-    /*
-    if (*argv[8] == 'g') {
-        ga(argv);
-    }
-    else {
-        pbil(0);
-    }
-    */
+    
     return 0;
 }
 

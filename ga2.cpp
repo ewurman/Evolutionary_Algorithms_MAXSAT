@@ -10,19 +10,9 @@
 #include <algorithm>    // std::sort
 #include <string>
 #include <math.h>
+#include "utils.cpp"
 
 using namespace std;
-
-struct Individual {
-    int id;
-    double fitness;
-    bool * variables;
-};
-
-// 0 is best rank, N is worst
-bool compare_fitness(Individual ind1, Individual ind2) {
-    return ind1.fitness > ind2.fitness;
-}
 
 char * filename;
 int population_size = 4;
@@ -33,22 +23,6 @@ double mprobablity = .5;
 int generations;
 char * algorithm;
 int num_variables = 5;
-
-std::vector <Individual> population;
-std::vector <Individual> next_pop;
-
-void ga(char* argv[]) {
-    
-    filename = argv[1];
-    population_size = std::atoi(argv[2]);
-    selection = argv[3];
-    crossover = argv[4];
-    cprobablity = std::atof(argv[5]);
-    mprobablity = std::atof(argv[6]);
-    generations = std::atoi(argv[7]);
-    algorithm = argv[8];
-    
-}
 
 vector<Individual> gen_one(int population_size, int num_variables) {
     // Generate Population
@@ -80,67 +54,69 @@ vector<Individual> gen_one(int population_size, int num_variables) {
 // ******************************************************************************************
 
 
-// // working
-// double sum_to(int num) {
-//     double sum = 0;
-//     for (int i = 0; i < num + 1; i++) {
-//         sum += i;
-//     }
-//     cout << "sum = " << sum << endl;
-//     return sum;
-// }
+ // working
+ double sum_to(int num) {
+     double sum = 0;
+     for (int i = 0; i < num + 1; i++) {
+         sum += i;
+     }
+     cout << "sum = " << sum << endl;
+     return sum;
+ }
 
 
-// // working, not technically probablities, really just bounds within 0 to 1 that correlate to the probabilities
-// double * probablities_by_rank() {
-//     double sum = sum_to(population_size);
-//     double last_pos = 0;
-//     double curr_bound = 0;
-//     double * probability_of = new double [population_size + 1]; // no such thing as rank 0
-//     for (int i = population_size; i > 0; i--) {
-//         curr_bound = (i+last_pos) / sum;
-//         probability_of[i] = curr_bound;
-//         last_pos = last_pos + i;
-//     }
-//     return probability_of;
-// }
+ // working, not technically probablities, really just bounds within 0 to 1 that correlate to the probabilities
+ double * probablities_by_rank() {
+     double sum = sum_to(population_size);
+     double last_pos = 0;
+     double curr_bound = 0;
+     double * probability_of = new double [population_size + 1]; // no such thing as rank 0
+     for (int i = population_size; i > 0; i--) {
+         curr_bound = (i+last_pos) / sum;
+         probability_of[i] = curr_bound;
+         last_pos = last_pos + i;
+     }
+     return probability_of;
+ }
 
 
-// // working. fills next pop with selected individuals ready for breeding
-// void rank_selection() {
-//     std::sort (population.begin(), population.end(), compare_fitness);
-//     double * probability_of = probablities_by_rank();
-//     for (int i = 0; i < population_size; i++) {
-//         double r = (double)rand() / (double)RAND_MAX;
-//         cout << "random came up with : " << r << endl;
-//         for (int j = population_size + 1; j > 0; j--) {
-//             if (r < probability_of[j]) {
-//                 next_pop.push_back(population.at(population_size - j));
-//                 std::cout << "Selecting rank: " << j << endl;
-//                 break;
-//             }
-//         }
-//     }
-// }
+// fills next pop with selected individuals ready for breeding
+ vector<Individual> rank_selection( vector<Individual> pop ) {
+     vector<Individual> selected_pop;
+     std::sort (pop.begin(), pop.end());
+     double * probability_of = probablities_by_rank();
+     for (int i = 0; i < population_size; i++) {
+         double r = (double)rand() / (double)RAND_MAX;
+         cout << "random came up with : " << r << endl;
+         for (int j = population_size + 1; j > 0; j--) {
+             if (r < probability_of[j]) {
+                 selected_pop.push_back(pop.at(population_size - j));
+                 std::cout << "Selecting rank: " << j << endl;
+                 break;
+             }
+         }
+     }
+     return selected_pop;
+ }
 
 // ******************************************************************************************
 // ****** Boltzmann Selection
 // ******************************************************************************************
 
 
- double boltz_sum() {
+ double boltz_sum(vector<Individual> pop) {
      double sum = 0;
-     for (unsigned i = 0; i < population_size; i++) {
-         sum += exp(population[i].fitness);
+     for (unsigned i = 0; i < pop.size(); i++) {
+         sum += exp(pop[i].fitness);
      }
      return sum;
  }
 
- double * probabilities_by_boltz() {
-     int sum = boltz_sum();
+ double * probabilities_by_boltz(vector<Individual> pop) {
+     int sum = boltz_sum(pop);
      double * probability_of = new double [num_variables];
-     for (int i = 0; i < population_size + 1; i++) {
-         probability_of[i] = exp(population[i].fitness) / sum;
+     for (int i = 0; i < pop.size() + 1; i++) {
+         probability_of[i] = exp(pop[i].fitness) / sum;
      }
      return probability_of;
  }
@@ -148,19 +124,20 @@ vector<Individual> gen_one(int population_size, int num_variables) {
  // working. fills next pop with selected individuals ready for breeding
  vector<Individual> boltzmann_selection( vector<Individual> pop) {
      vector<Individual> selected;
-     std::sort (pop.begin(), pop.end(), compare_fitness);
-     double * probability_of = probabilities_by_boltz();
+     std::sort (pop.begin(), pop.end());
+     double * probability_of = probabilities_by_boltz(pop);
      for (int i = 0; i < population_size; i++) {
          double r = (double)rand() / (double)RAND_MAX;
          cout << "random came up with : " << r << endl;
          for (int j = population_size + 1; j > 0; j--) {
              if (r < probability_of[j]) {
-                 next_pop.push_back(population.at(population_size - j));
+                 selected.push_back(pop.at(pop.size() - j));
                  std::cout << "Selecting rank: " << j << endl;
                  break;
              }
          }
      }
+     return selected;
  }
 
 // ******************************************************************************************
@@ -182,7 +159,7 @@ vector<Individual> tournament( vector<Individual> pop ) {
         while (r1 == r2) {
             r2 = rand() % pop.size();
         }
-        if (compare_fitness(pop.at(r1), pop.at(r2))) {
+        if (pop.at(r2) < pop.at(r1)) {
             new_pop.push_back(pop.at(r1));
         }
         else {
@@ -385,6 +362,53 @@ void print_pop( vector<Individual> vect) {
 }
 
 
+void ga(char* argv[], int** clauses, int numClauses, int numVariables) {
+    
+    filename = argv[1];
+    population_size = std::atoi(argv[2]);
+    selection = argv[3];
+    crossover = argv[4];
+    cprobablity = std::atof(argv[5]);
+    mprobablity = std::atof(argv[6]);
+    generations = std::atoi(argv[7]);
+    algorithm = argv[8];
+    num_variables = numVariables;
+    
+    vector<Individual> population = gen_one(population_size, num_variables);
+    
+    for (int i = 0; i < generations; i++) {
+        
+        // update fitnesses
+        for (int j = 0; j < population_size; j++) {
+            population[j].fitness = evaluateFitness(population[j].variables, numClauses, clauses);
+        }
+        
+        // selection
+        if (strcmp(selection, "rs")) {
+            population = rank_selection(population);
+        } else if (strcmp(selection, "bs")) {
+            population = boltzmann_selection(population);
+        } else if (strcmp(selection, "rs")) {
+            population = tournament(population);
+        } else {
+            cout << "Enter valid selection method ( rs, ts, bs )" << endl;
+            return;
+        }
+        
+        // breeding
+        if (strcmp(crossover, "1c")) {
+            population = one_point_crossover(population);
+        } else if (strcmp(crossover, "uc")) {
+            population = uniform_crossover(population);
+        } else {
+            cout << "Enter valid crossover method ( 1c, uc )" << endl;
+            return;
+        }
+        
+        //mutation
+        population = mutate(population);
+    }
+}
 
 //int main() {
 //    srand(time(0));
