@@ -95,6 +95,7 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
+            argument = ""
             isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>

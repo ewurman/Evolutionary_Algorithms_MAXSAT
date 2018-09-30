@@ -11,10 +11,10 @@ using namespace std;
 
 
 //clock_t MAX_RUNTIME = 300 * CLOCKS_PER_SEC;
-int MAX_ITERATIONS = 1000;
+#define MAX_ITERATIONS 1000;
 
 
-void pbil(int numBools, int numClauses, int** clauses, int numSamples, double posLR, double negLR, double mutateProb, double mutateVal, int iterations){
+inline void pbil(int numBools, int numClauses, int** clauses, int numSamples, double posLR, double negLR, double mutateProb, double mutateVal, int iterations){
     double* probabilities = new double[numBools];
     // initialize these all to be 0.5
     // A higher probability means more likely to be true
@@ -44,6 +44,7 @@ void pbil(int numBools, int numClauses, int** clauses, int numSamples, double po
             double fitness = evaluateFitness(vars, numClauses, clauses);
             sample.fitness = fitness;
             sample.variables = vars;
+            // why this?? not samplesVector.push_back();
             samplesVector->push_back(sample);
         } // end for loop creating samples
 

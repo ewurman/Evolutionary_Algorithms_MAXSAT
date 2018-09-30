@@ -14,17 +14,17 @@
 
 using namespace std;
 
-char * filename;
-int population_size = 4;
-char * selection;
-char * crossover;
-double cprobablity = .9;
-double mprobablity = .5;
-int generations;
-char * algorithm;
-int num_variables = 5;
+static char * filename;
+static int population_size;
+static char * selection;
+static char * crossover;
+static double cprobablity;
+static double mprobablity;
+static int generations;
+static char * algorithm;
+static int num_variables;
 
-vector<Individual> gen_one(int population_size, int num_variables) {
+inline vector<Individual> gen_one(int population_size, int num_variables) {
     // Generate Population
     vector<Individual> pop;
     bool * temp; 
@@ -55,7 +55,7 @@ vector<Individual> gen_one(int population_size, int num_variables) {
 
 
  // working
- double sum_to(int num) {
+ inline double sum_to(int num) {
      double sum = 0;
      for (int i = 0; i < num + 1; i++) {
          sum += i;
@@ -66,7 +66,7 @@ vector<Individual> gen_one(int population_size, int num_variables) {
 
 
  // working, not technically probablities, really just bounds within 0 to 1 that correlate to the probabilities
- double * probablities_by_rank() {
+inline double * probablities_by_rank() {
      double sum = sum_to(population_size);
      double last_pos = 0;
      double curr_bound = 0;
@@ -81,7 +81,7 @@ vector<Individual> gen_one(int population_size, int num_variables) {
 
 
 // fills next pop with selected individuals ready for breeding
- vector<Individual> rank_selection( vector<Individual> pop ) {
+inline vector<Individual> rank_selection( vector<Individual> pop ) {
      vector<Individual> selected_pop;
      std::sort (pop.begin(), pop.end());
      double * probability_of = probablities_by_rank();
@@ -97,14 +97,14 @@ vector<Individual> gen_one(int population_size, int num_variables) {
          }
      }
      return selected_pop;
- }
+}
 
 // ******************************************************************************************
 // ****** Boltzmann Selection
 // ******************************************************************************************
 
 
- double boltz_sum(vector<Individual> pop) {
+inline double boltz_sum(vector<Individual> pop) {
      double sum = 0;
      for (unsigned i = 0; i < pop.size(); i++) {
          sum += exp(pop[i].fitness);
@@ -112,7 +112,7 @@ vector<Individual> gen_one(int population_size, int num_variables) {
      return sum;
  }
 
- double * probabilities_by_boltz(vector<Individual> pop) {
+inline double * probabilities_by_boltz(vector<Individual> pop) {
      int sum = boltz_sum(pop);
      double * probability_of = new double [num_variables];
      for (int i = 0; i < pop.size() + 1; i++) {
@@ -122,7 +122,7 @@ vector<Individual> gen_one(int population_size, int num_variables) {
  }
 
  // working. fills next pop with selected individuals ready for breeding
- vector<Individual> boltzmann_selection( vector<Individual> pop) {
+inline vector<Individual> boltzmann_selection( vector<Individual> pop) {
      vector<Individual> selected;
      std::sort (pop.begin(), pop.end());
      double * probability_of = probabilities_by_boltz(pop);
@@ -146,7 +146,7 @@ vector<Individual> gen_one(int population_size, int num_variables) {
 
 
 
-vector<Individual> tournament( vector<Individual> pop ) {
+inline vector<Individual> tournament( vector<Individual> pop ) {
     vector<Individual> new_pop;
     double pop_size = pop.size();
     int left[pop.size()];
@@ -173,7 +173,7 @@ vector<Individual> tournament( vector<Individual> pop ) {
 // ******************************************************************************************
 // ****** Mutation & Crossover
 // ******************************************************************************************
-void print_ind( Individual ind ) {
+inline void print_ind( Individual ind ) {
     cout << "  IIndividual " << ind.id << " with fitness " << ind.fitness << " and variables : " ;
     for (int j = 0; j < num_variables; j++) {
         cout << ind.variables[j] << ",";
@@ -181,7 +181,7 @@ void print_ind( Individual ind ) {
     cout << endl;
 }
 
-void free_mem( vector<bool *> freeme) {
+inline void free_mem( vector<bool *> freeme) {
     //remove duplicates
     vector<bool *>::iterator it;
     it = std::unique (freeme.begin(), freeme.end());
@@ -193,7 +193,7 @@ void free_mem( vector<bool *> freeme) {
     freeme.clear();
 }
 
-vector<Individual> mutate( vector<Individual> pop ) {
+inline vector<Individual> mutate( vector<Individual> pop ) {
      vector<Individual> mutated_pop;
      vector<bool *> free_me;
      bool * temp;
@@ -231,7 +231,7 @@ vector<Individual> mutate( vector<Individual> pop ) {
      return mutated_pop;
  }
 
- vector<Individual> one_point_crossover( vector<Individual> pop ) {
+inline vector<Individual> one_point_crossover( vector<Individual> pop ) {
      vector<Individual> breeded_pop;
      vector<bool *> free_me;
      bool * temp1;
@@ -290,7 +290,7 @@ vector<Individual> mutate( vector<Individual> pop ) {
  }
 
 
-vector<Individual> uniform_crossover( vector<Individual> pop ) {
+inline vector<Individual> uniform_crossover( vector<Individual> pop ) {
     vector<Individual> breeded_pop;
     vector<bool *> free_me;
     bool * temp1;
@@ -351,7 +351,7 @@ vector<Individual> uniform_crossover( vector<Individual> pop ) {
     return breeded_pop;
 }
 
-void print_pop( vector<Individual> vect) {
+inline void print_pop( vector<Individual> vect) {
     for (unsigned i = 0; i < vect.size(); i++) {
         cout << "Individual " << vect.at(i).id << " with fitness " << vect.at(i).fitness << " and variables : " ;
         for (int j = 0; j < num_variables; j++) {
@@ -362,7 +362,7 @@ void print_pop( vector<Individual> vect) {
 }
 
 
-void ga(char* argv[], int** clauses, int numClauses, int numVariables) {
+inline void ga(char* argv[], int** clauses, int numClauses, int numVariables) {
     
     filename = argv[1];
     population_size = std::atoi(argv[2]);
@@ -384,11 +384,11 @@ void ga(char* argv[], int** clauses, int numClauses, int numVariables) {
         }
         
         // selection
-        if (strcmp(selection, "rs")) {
+        if (!strcmp(selection, "rs")) {
             population = rank_selection(population);
-        } else if (strcmp(selection, "bs")) {
+        } else if (!strcmp(selection, "bs")) {
             population = boltzmann_selection(population);
-        } else if (strcmp(selection, "rs")) {
+        } else if (!strcmp(selection, "rs")) {
             population = tournament(population);
         } else {
             cout << "Enter valid selection method ( rs, ts, bs )" << endl;
@@ -396,9 +396,9 @@ void ga(char* argv[], int** clauses, int numClauses, int numVariables) {
         }
         
         // breeding
-        if (strcmp(crossover, "1c")) {
+        if (!strcmp(crossover, "1c")) {
             population = one_point_crossover(population);
-        } else if (strcmp(crossover, "uc")) {
+        } else if (!strcmp(crossover, "uc")) {
             population = uniform_crossover(population);
         } else {
             cout << "Enter valid crossover method ( 1c, uc )" << endl;
@@ -409,27 +409,6 @@ void ga(char* argv[], int** clauses, int numClauses, int numVariables) {
         population = mutate(population);
     }
 }
-
-//int main() {
-//    srand(time(0));
-//    gen_one(num_variables);
-//
-//    print_pop(population);
-//
-//    //population = tournament(population);
-//    //print_pop(population);
-//    cout << endl << endl<< endl;
-//
-//    population = mutate(population);
-//    cout << endl << endl << endl;
-//
-//    print_pop(population);
-//
-//    cout << endl;
-//
-//    return 0;
-//}
-
 
 
 
