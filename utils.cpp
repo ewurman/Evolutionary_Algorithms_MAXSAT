@@ -55,17 +55,18 @@ inline double evaluateFitness(bool* vars, int numClauses, int** clauses){
 }
 
 
-inline void findMaxMinIndividual(vector<Individual> samples, Individual& max, Individual& min, int numSamples){
-    max = samples[0];
-    min = samples[0];
+inline void findMaxMinIndividualIndex(vector<Individual> samples, int& max, int& min, int numSamples){
+    max = 0;
+    min = 0;
     for (int i = 1; i < numSamples; i++){
-        if (samples[i] < min){
-            min = samples[i];
-        } else if (max < samples[i]){
-            max = samples[i];
+        if (samples[i] < samples[min]){
+            min = i;
+        } else if (samples[max] < samples[i]){
+            max = i;
         }
     }
 }
+
 
 
 
