@@ -63,11 +63,10 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "/Users/iansquiers/Desktop/NI/project1-ga-pbil-for-maxsat/maxsat-problems/maxsat-crafted/bipartite/maxcut-140-630-0.7//Users/iansquiers/Desktop/NI/project1-ga-pbil-for-maxsat/maxsat-problems/maxsat-crafted/bipartite/maxcut-140-630-0.7/Users/iansquiers/Desktop/NI/project1-ga-pbil-for-maxsat/maxsat-problems/maxsat-crafted/bipartite/maxcut-140-630-0.7/Users/iansquiers/Desktop/NI/project1-ga-pbil-for-maxsat/maxsat-problems/maxsat-crafted/bipartite/maxcut-140-630-0.7/maxcut-140-630-0.7-9.cnf"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "100"
+            argument = "20"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
@@ -91,7 +90,7 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "g"
+            argument = "p"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
