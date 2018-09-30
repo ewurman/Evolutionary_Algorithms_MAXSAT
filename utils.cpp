@@ -5,14 +5,16 @@
 //
 
 
-using namespace std;
 
 #ifndef UTILS_CPP
 #define UTILS_CPP
 
 #include <vector>
 
+using namespace std;
+
 typedef struct Individual {
+    int id;
     double fitness;
     bool* variables;
 
@@ -25,7 +27,7 @@ typedef struct Individual {
 
 
 
-double evaluateFitness(bool* vars, int numClauses, int** clauses){
+inline double evaluateFitness(bool* vars, int numClauses, int** clauses){
     int score = 0;
 
     for (int i = 0; i < numClauses; i++){
@@ -53,7 +55,7 @@ double evaluateFitness(bool* vars, int numClauses, int** clauses){
 }
 
 
-void findMaxMinIndividual(vector<Individual> samples, Individual& max, Individual& min, int numSamples){
+inline void findMaxMinIndividual(vector<Individual> samples, Individual& max, Individual& min, int numSamples){
     max = samples[0];
     min = samples[0];
     for (int i = 1; i < numSamples; i++){

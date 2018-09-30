@@ -23,6 +23,8 @@ void printClauses(int** clauses, int numClauses);
 
 int main(int argc, char* argv[]) {
     char* filename = argv[1];
+    cout << ";laskdjflak" << endl;
+    cout << filename << endl;
     int numClauses;
     int numVariables;
     int** clauses = parse(filename, numClauses, numVariables);
@@ -32,6 +34,8 @@ int main(int argc, char* argv[]) {
     }
      
     //TODO: This isn't working
+
+    /*
     if (strcmp(argv[8],"p")){
         cout << "last parameter is p" << endl;
         int numSamples = stoi(argv[2]);
@@ -44,13 +48,8 @@ int main(int argc, char* argv[]) {
         pbil(numVariables, numClauses, clauses, numSamples, posLR, negLR, mutateProb, mutateVal, numIterations);
     }
 
-
-    /*
-    if (*argv[8] == 'g') {
-        ga(argv);
-    }
-    else {
-        pbil(0);
+    if (!strcmp(argv[8], "ga")) {
+        ga(argv, clauses, numClauses, numVariables);
     }
     */
     return 0;
@@ -65,7 +64,7 @@ int** parse(char* filename, int& numClauses, int& numVariables){
     // parse the file and return the array of each clause array
     // of bool indices.
     ifstream infile(filename);
-    int **clauses;
+    int **clauses = nullptr;
     numVariables = 0;
     numClauses = 0;
     bool initialized = false;
