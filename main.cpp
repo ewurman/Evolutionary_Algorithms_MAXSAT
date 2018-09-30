@@ -10,7 +10,7 @@
 #include <sstream>
 #include <iostream>
 #include "pbil.cpp"
-//#include "ga2.cpp"
+#include "ga2.cpp"
 
 
 
@@ -23,7 +23,7 @@ void printClauses(int** clauses, int numClauses);
 
 int main(int argc, char* argv[]) {
     char* filename = argv[1];
-    cout << ";laskdjflak" << endl;
+    cout << argc << endl;
     cout << filename << endl;
     int numClauses;
     int numVariables;
@@ -33,10 +33,7 @@ int main(int argc, char* argv[]) {
         printClauses(clauses, numClauses);
     }
      
-    //TODO: This isn't working
-
-    /*
-    if (strcmp(argv[8],"p")){
+    if (!strcmp(argv[8],"p")){
         cout << "last parameter is p" << endl;
         int numSamples = stoi(argv[2]);
         double posLR = stod(argv[3]);
@@ -44,10 +41,10 @@ int main(int argc, char* argv[]) {
         double mutateProb = stod(argv[5]);
         double mutateVal = stod(argv[6]);
         int numIterations = stoi(argv[7]);
-
-        pbil(numVariables, numClauses, clauses, numSamples, posLR, negLR, mutateProb, mutateVal, numIterations);
+        
+       // pbil(numVariables, numClauses, clauses, numSamples, posLR, negLR, mutateProb, mutateVal, numIterations);
     }
-
+    /*
     if (!strcmp(argv[8], "ga")) {
         ga(argv, clauses, numClauses, numVariables);
     }
