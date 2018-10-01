@@ -26,6 +26,7 @@ void pbil(int numBools, int numClauses, int** clauses, int numSamples, double po
 
     int i = 0;
     while (i < iterations){
+        printProbabilityVector(probabilities, numBools);
         vector<Individual> samplesVector;// = new vector<Individuals>(numSamples);
         //bool** samplesArray = new bool*[numSamples];
         for (int i=0; i < numSamples; i++){
@@ -94,7 +95,7 @@ void pbil(int numBools, int numClauses, int** clauses, int numSamples, double po
             finalResult[i] = false;
         }
     }
-    double score = evaluateFitness(finalResult, numClauses, clauses);
+    double score = evaluateFitness2(finalResult, numClauses, clauses);
     cout << "PBIL finished with a fitness of " << score << endl;
 }
 

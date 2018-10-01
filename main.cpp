@@ -34,7 +34,11 @@ int main(int argc, char* argv[]) {
         cout << "numClauses: " << numClauses << endl;
         printClauses(clauses, numClauses);
     }
-     
+    
+    // seed random so not always the same
+    srand(time(0));
+
+
     if (!strcmp(argv[8],"p")){ 
         int numSamples = stoi(argv[2]);
         double posLR = stod(argv[3]);
@@ -43,7 +47,7 @@ int main(int argc, char* argv[]) {
         double mutateVal = stod(argv[6]);
         int numIterations = stoi(argv[7]);
         
-       pbil(numVariables, numClauses, clauses, numSamples, posLR, negLR, mutateProb, mutateVal, numIterations);
+        pbil(numVariables, numClauses, clauses, numSamples, posLR, negLR, mutateProb, mutateVal, numIterations);
     }
     /*
     if (!strcmp(argv[8], "ga")) {
