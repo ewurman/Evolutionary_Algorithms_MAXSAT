@@ -2,20 +2,18 @@
  * Authors: Erik Wurman and Ian Squiers
  *
  */
-
+#include <stdio.h>
 #include <vector>
+#include <iostream>
 #include "utils.cpp"
 
-
 using namespace std;
-
 
 //clock_t MAX_RUNTIME = 300 * CLOCKS_PER_SEC;
 #define MAX_ITERATIONS 1000;
 
 
-
-void pbil(int numBools, int numClauses, int** clauses, int numSamples, double posLR, double negLR, double mutateProb, double mutateVal, int iterations){
+inline void pbil(int numBools, int numClauses, int** clauses, int numSamples, double posLR, double negLR, double mutateProb, double mutateVal, int iterations){
     cout << "Entered PBIL algorithm" <<endl;
     double* probabilities = new double[numBools];
     // initialize these all to be 0.5

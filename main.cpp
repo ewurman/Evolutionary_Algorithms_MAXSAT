@@ -4,7 +4,7 @@
 //
 //  Created by Ian Squiers and Erik Wurman
 //
-
+#include <iostream>
 #include <stdio.h>
 #include <fstream>
 #include <sstream>
@@ -44,11 +44,11 @@ int main(int argc, char* argv[]) {
         
        // pbil(numVariables, numClauses, clauses, numSamples, posLR, negLR, mutateProb, mutateVal, numIterations);
     }
-    /*
+    
     if (!strcmp(argv[8], "ga")) {
         ga(argv, clauses, numClauses, numVariables);
     }
-    */
+    
     return 0;
 }
 

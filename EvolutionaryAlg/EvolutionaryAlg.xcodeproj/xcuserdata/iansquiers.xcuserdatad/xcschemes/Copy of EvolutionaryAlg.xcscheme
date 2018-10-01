@@ -63,6 +63,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
+            argument = "/Users/iansquiers/Desktop/NI/project1-ga-pbil-for-maxsat/Evolutionary_Algorithms_MAXSAT/SanityTest.cnf"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
@@ -70,7 +71,7 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "rs"
+            argument = "ts"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
@@ -82,7 +83,7 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "0.5"
+            argument = "0.1"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
@@ -90,7 +91,7 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "p"
+            argument = "ga"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument

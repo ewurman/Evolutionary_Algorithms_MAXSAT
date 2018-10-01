@@ -14,7 +14,6 @@
 using namespace std;
 
 typedef struct Individual {
-    int id;
     double fitness;
     bool* variables;
 
