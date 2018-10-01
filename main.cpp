@@ -23,8 +23,10 @@ void printClauses(int** clauses, int numClauses);
 
 int main(int argc, char* argv[]) {
     char* filename = argv[1];
-    cout << argc << endl;
-    cout << filename << endl;
+    if (DEBUG_ON){
+        cout << argc << " arguments" << endl;
+        cout << filename << endl;
+    }
     int numClauses;
     int numVariables;
     int** clauses = parse(filename, numClauses, numVariables);
@@ -32,9 +34,12 @@ int main(int argc, char* argv[]) {
         cout << "numClauses: " << numClauses << endl;
         printClauses(clauses, numClauses);
     }
-     
-    if (!strcmp(argv[8],"p")){
-        cout << "last parameter is p" << endl;
+    
+    // seed random so not always the same
+    srand(time(0));
+
+
+    if (!strcmp(argv[8],"p")){ 
         int numSamples = stoi(argv[2]);
         double posLR = stod(argv[3]);
         double negLR = stod(argv[4]);
@@ -42,7 +47,7 @@ int main(int argc, char* argv[]) {
         double mutateVal = stod(argv[6]);
         int numIterations = stoi(argv[7]);
         
-       // pbil(numVariables, numClauses, clauses, numSamples, posLR, negLR, mutateProb, mutateVal, numIterations);
+        pbil(numVariables, numClauses, clauses, numSamples, posLR, negLR, mutateProb, mutateVal, numIterations);
     }
     
     if (!strcmp(argv[8], "ga")) {
