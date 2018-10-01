@@ -119,6 +119,17 @@ void printIndividualAsProbabilities(Individual sample, int numBools){
 }
 
 
+void Individual copyForBreeding(Individual sample, int numBools){
+    Individual copy;
+    copy.fitness = sample.fitness;
+    bool* vars = new bool[numBools];
+    for (int i = 0; i < numBools; i++){
+        vars[i] = sample.variables[i];
+    }
+    copy.variables = vars;
+    return copy;
+}
+
 
 
 #endif
