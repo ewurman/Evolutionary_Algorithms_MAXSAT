@@ -63,7 +63,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "/Users/iansquiers/Desktop/NI/project1-ga-pbil-for-maxsat/Evolutionary_Algorithms_MAXSAT/100PossibleTest.cnf"
+            argument = "/Users/iansquiers/Desktop/NI/project1-ga-pbil-for-maxsat/Evolutionary_Algorithms_MAXSAT/maxcut-140-630-0.7-35.cnf"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument

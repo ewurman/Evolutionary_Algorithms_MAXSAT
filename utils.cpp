@@ -107,7 +107,7 @@ inline void printProbabilityVector(double* probs, int numBools){
     cout << endl;
 }
 
-void printIndividualAsProbabilities(Individual sample, int numBools){
+inline void printIndividualAsProbabilities(Individual sample, int numBools){
     for (int i = 0; i < numBools; i++){
         if(sample.variables[i]){
             cout << "1 ";
@@ -119,7 +119,7 @@ void printIndividualAsProbabilities(Individual sample, int numBools){
 }
 
 
-void Individual copyForBreeding(Individual sample, int numBools){
+inline Individual copyForBreeding(Individual sample, int numBools) {
     Individual copy;
     copy.fitness = sample.fitness;
     bool* vars = new bool[numBools];
@@ -130,7 +130,40 @@ void Individual copyForBreeding(Individual sample, int numBools){
     return copy;
 }
 
+inline void free_mem( vector<Individual> freeme) {
+    for (unsigned i = 0; i < freeme.size(); i++) {
+        delete[] freeme[i].variables;
+        // is this necessary? idk
+        freeme[i].variables = nullptr;
+    }
+    
+}
 
+inline void print_ind( Individual ind, int num_vars ) {
+    cout << "Individual with fitness " << ind.fitness << " and variables : " ;
+    for (int j = 0; j < num_vars; j++) {
+        cout << ind.variables[j] << ",";
+    }
+    cout << endl;
+}
+
+inline void print_pop( vector<Individual> pop, int num_vars) {
+    for (unsigned i = 0; i < pop.size(); i++) {
+        print_ind(pop[i], num_vars);
+    }
+}
+
+inline int max_fitness(vector<Individual> pop) {
+    double max = 0;
+    int max_index = 0;
+    for (int i = 0; i < pop.size(); i++) {
+        if (pop[i].fitness > max) {
+            max = pop[i].fitness;
+            max_index = i;
+        }
+    }
+    return max_index;
+}
 
 #endif
 
