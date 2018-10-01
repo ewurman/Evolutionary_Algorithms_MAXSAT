@@ -220,9 +220,8 @@ inline void free_mem( vector<bool *> freeme) {
     freeme.resize(distance(freeme.begin(),it) );
     
     for (unsigned i = 0; i < freeme.size(); i++) {
-        // delete[] freeme.at(i);
+        delete[] freeme.at(i);
     }
-    freeme.clear();
 }
 
 inline vector<Individual> mutate( vector<Individual> pop ) {
@@ -236,7 +235,7 @@ inline vector<Individual> mutate( vector<Individual> pop ) {
         print_ind(ind);
         for (int i = 0; i < num_variables; ++i) {
             double r = (double)rand() / (double)RAND_MAX;
-            cout << r << endl;
+            // cout << r << endl;
             if (r < mprobablity) {
                 //cout << "mutating at " << i << endl;
                 temp[i] = !(ind.variables[i]);
@@ -260,6 +259,7 @@ inline vector<Individual> mutate( vector<Individual> pop ) {
     }
     
     free_mem(free_me);
+    free_me.clear();
     return mutated_pop;
 }
 
@@ -318,6 +318,7 @@ inline vector<Individual> one_point_crossover( vector<Individual> pop ) {
         }
     }
     free_mem(free_me);
+    free_me.clear();
     return breeded_pop;
 }
 
@@ -380,6 +381,7 @@ inline vector<Individual> uniform_crossover( vector<Individual> pop ) {
         }
     }
     free_mem(free_me);
+    free_me.clear();
     return breeded_pop;
 }
 
