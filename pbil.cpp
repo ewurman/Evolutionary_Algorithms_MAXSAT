@@ -23,10 +23,20 @@ void pbil(int numBools, int numClauses, int** clauses, int numSamples, double po
     for (int i = 0; i < numBools; i++){
         probabilities[i] = 0.5;
     } 
+    
+    int bestIter = 0;
+    Individual bestSoFar;
+    bool* bestvars = new bool[numBools];
+    for (int i = 0; i < numBools; i++){
+        bestvars[i] = true; //default true;
+    }
+    bestSoFar.variables = bestvars;
+    bestSoFar.fitness = evaluateFitness(bestvars, numClauses, clauses);
+
 
     int i = 0;
     while (i < iterations){
-        printProbabilityVector(probabilities, numBools);
+        //printProbabilityVector(probabilities, numBools);
         vector<Individual> samplesVector;// = new vector<Individuals>(numSamples);
         //bool** samplesArray = new bool*[numSamples];
         for (int i=0; i < numSamples; i++){
@@ -58,6 +68,17 @@ void pbil(int numBools, int numClauses, int** clauses, int numSamples, double po
         Individual best = samplesVector[bestIdx];
         Individual worst = samplesVector[worstIdx]; 
 
+        if (bestSoFar < best){
+            bestSoFar = best;
+            bestIter = i;
+            if (bestSoFar.fitness == 1){
+                cout << "Found a solution!" << endl;
+                printIndividualAsProbabilities(bestSoFar, numBools); 
+                cout << "Best solution found on the "<<i<<"th iteration"<<endl;
+                return;
+            }
+        }
+
         // now update the probability vectors based on these; 
         for(int j = 0; j < numBools; j++){
             if (best.variables[j] != worst.variables[j]){
@@ -86,6 +107,7 @@ void pbil(int numBools, int numClauses, int** clauses, int numSamples, double po
     } //end while loop for iterations 
 
     //now round probabilities and evaluate and return score?
+    /*
     bool* finalResult = new bool[numBools];
     for (int i = 0; i < numBools; i++){
         if (probabilities[i] >= 0.5){
@@ -97,6 +119,11 @@ void pbil(int numBools, int numClauses, int** clauses, int numSamples, double po
     }
     double score = evaluateFitness2(finalResult, numClauses, clauses);
     cout << "PBIL finished with a fitness of " << score << endl;
+    */
+    evaluateFitness2(bestSoFar.variables, numClauses, clauses);
+    cout << "PBIL best sample had a fitness of: " << bestSoFar.fitness << endl;
+    cout << "Best solution found on the "<<i<<"th iteration"<<endl;
+    printIndividualAsProbabilities(bestSoFar, numBools);
 }
 
 

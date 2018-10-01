@@ -1,0 +1,57 @@
+For both GA and PBIL run the following tests on the following 5 MAXSAT Problems:
+
+t3pm3-5555.spn.cnf  # this is the smallest one
+p_hat1000-1.clq.cnf 
+maxcut-140-630-0.7-35.cnf
+HG-5SAT-V50-C900-10.cnf
+s3v60c800-1.cnf
+
+PBIL:
+	Start with this base:
+		100 samples
+		0.1 positive LR
+		0.075 negative LR
+		0.02 Mutation Probability
+		0.05 Mutation Value
+		2000 Iterations
+	for each parameter, try 3 experiments at each level while the rest are at the base:
+		Samples: 25, 50, 100, 200
+		positive LR: 0.05, 0.1, 0.2
+		negative LR: 0.05, 0.075, 0.1
+		Mutation Prob: 0.01, 0.02, 0.05
+		Mutation Value: 0.025, 0.05, 0.1
+		Iterations: 1000, 2000, 5000
+		
+		
+GA:
+	Base:
+		100 individuals
+		Any Selection? (Ian, what are your thoughts?)
+		1-pt Crossover
+		0.7 prob of crossover
+		0.01 prob of mutation
+		2000 iterations
+	
+	So, the write up sounds like there is a lot of experimenting to do here. The goal 
+	of which is to find the parameters that work for small problems (t3pm3) and then 
+	see if they work on larger problems.
+	
+	For t3pm3: 
+		individuals: 10 50 100
+		iterations: 500 2000 10000
+		crossover type
+		selection type
+	
+	Take the best of those and then try on the larger files:
+		(maybe increase iterations/individuals if need be)
+		crossover prob: 0.1, 0.5, 1.0
+		mutation prob: 0.005, 0.01, 0.1
+		
+		Take the best of these and create 3 more sets of each with smaller gaps (9 more tests)
+		ex: if 0.5 and 0.01 was the best try
+			crossover P: 0.4, 0.5, 0.6
+			mutation: 0.0075, 0.01, 0.0125
+		
+		
+		
+		

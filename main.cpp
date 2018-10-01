@@ -9,6 +9,7 @@
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <ctime>
 #include "pbil.cpp"
 #include "ga2.cpp"
 
@@ -23,15 +24,16 @@ void printClauses(int** clauses, int numClauses);
 
 int main(int argc, char* argv[]) {
     char* filename = argv[1];
+    cout << filename << endl; // need for output
     if (DEBUG_ON){
-        cout << argc << " arguments" << endl;
-        cout << filename << endl;
+        cout << argc << " arguments" << endl; 
     }
     int numClauses;
     int numVariables;
     int** clauses = parse(filename, numClauses, numVariables);
-    if (DEBUG_ON){
-        cout << "numClauses: " << numClauses << endl;
+    cout << "numVariables: " << numVariables << endl; //need for output
+    cout << "numClauses: " << numClauses << endl;
+    if (DEBUG_ON){ 
         printClauses(clauses, numClauses);
     }
     
@@ -47,7 +49,13 @@ int main(int argc, char* argv[]) {
         double mutateVal = stod(argv[6]);
         int numIterations = stoi(argv[7]);
         
+
+        clock_t start = clock();
+
         pbil(numVariables, numClauses, clauses, numSamples, posLR, negLR, mutateProb, mutateVal, numIterations);
+
+        double duration = (clock() - start) / (double) CLOCKS_PER_SEC;
+        cout << "PBIL took "<< duration << " seconds" << endl;
     }
     
     if (!strcmp(argv[8], "ga")) {

@@ -106,6 +106,19 @@ void printProbabilityVector(double* probs, int numBools){
     cout << endl;
 }
 
+void printIndividualAsProbabilities(Individual sample, int numBools){
+    for (int i = 0; i < numBools; i++){
+        if(sample.variables[i]){
+            cout << "1 ";
+        } else {
+            cout << "0 ";
+        }
+    }
+    cout << endl;
+}
+
+
+
 
 #endif
 
