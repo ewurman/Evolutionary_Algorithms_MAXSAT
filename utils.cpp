@@ -10,6 +10,7 @@
 #define UTILS_CPP
 
 #include <vector>
+#include <iostream>
 
 using namespace std;
 
@@ -98,7 +99,7 @@ inline void findMaxMinIndividualIndex(vector<Individual> samples, int& max, int&
     }
 }
 
-void printProbabilityVector(double* probs, int numBools){
+inline void printProbabilityVector(double* probs, int numBools){
     cout << probs[0];
     for (int i = 1; i < numBools; i++){
         cout << " " << probs[i];

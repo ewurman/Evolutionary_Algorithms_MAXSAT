@@ -15,7 +15,7 @@ using namespace std;
 
 
 
-void pbil(int numBools, int numClauses, int** clauses, int numSamples, double posLR, double negLR, double mutateProb, double mutateVal, int iterations){
+inline void pbil(int numBools, int numClauses, int** clauses, int numSamples, double posLR, double negLR, double mutateProb, double mutateVal, int iterations){
     
     double* probabilities = new double[numBools];
     // initialize these all to be 0.5

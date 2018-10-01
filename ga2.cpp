@@ -144,19 +144,28 @@ inline vector<Individual> boltzmann_selection( vector<Individual> pop) {
 // ****** Tournament Selection
 // ******************************************************************************************
 
-
+inline int * untaken_indecies(vector<Individual> pop) {
+    int * untaken = new int[pop.size()];
+    for (int i = 0; i < pop.size(); i++) {
+        untaken[i] = 0;
+    }
+    return untaken;
+}
 
 inline vector<Individual> tournament( vector<Individual> pop ) {
     vector<Individual> new_pop;
     double pop_size = pop.size();
-    int left[pop.size()];
+    int taken[pop.size()];
     for (int i =0; i < pop_size; i++) {
-        left[i] = i;
+        taken[i] = 0;
     }
     for (int i = 0; i < (pop_size / 2); i++) {
         int r1 = rand() % pop.size();
+        while (taken[r1]) {
+            r1 = rand() % pop.size();
+        }
         int r2 = rand() % pop.size();
-        while (r1 == r2) {
+        while (r1 == r2 || taken[r2]) {
             r2 = rand() % pop.size();
         }
         if (pop.at(r2) < pop.at(r1)) {
@@ -165,8 +174,31 @@ inline vector<Individual> tournament( vector<Individual> pop ) {
         else {
             new_pop.push_back(pop.at(r2));
         }
+        taken[r1] = 1;
+        taken[r1] = 1;
     }
-    return new_pop;
+    for (int i =0; i < pop_size; i++) {
+        taken[i] = 0;
+    }
+    for (int i = 0; i < (pop_size / 2); i++) {
+        int r1 = rand() % pop.size();
+        while (taken[r1]) {
+            r1 = rand() % pop.size();
+        }
+        int r2 = rand() % pop.size();
+        while (r1 == r2 || taken[r2]) {
+            r2 = rand() % pop.size();
+        }
+        if (pop.at(r2) < pop.at(r1)) {
+            new_pop.push_back(pop.at(r1));
+        }
+        else {
+            new_pop.push_back(pop.at(r2));
+        }
+        taken[r1] = 1;
+        taken[r1] = 1;
+    }
+   return new_pop;
 }
 
 
@@ -241,7 +273,7 @@ inline vector<Individual> one_point_crossover( vector<Individual> pop ) {
         int r1 =  rand() % pop.size();
         int r2 =  rand() % pop.size();
         while (r2 == r1) {
-            r2 =rand() % pop.size();
+            r2 = rand() % pop.size();
         }
         Individual parent1 = pop.at(r1);
         Individual parent2 = pop.at(r2);
@@ -255,11 +287,11 @@ inline vector<Individual> one_point_crossover( vector<Individual> pop ) {
             temp2 = new (nothrow) bool[num_variables];
             int crossover_loc = rand() % num_variables;
             cout << crossover_loc << endl;
-            for (int j = 0; j < crossover_loc; ++j) {
+            for (int j = 0; j < crossover_loc; j++) {
                 temp1[j] = parent1.variables[j];
                 temp2[j] = parent2.variables[j];
             }
-            for (int j = crossover_loc; j < num_variables; ++j) {
+            for (int j = crossover_loc; j < num_variables; j++) {
                 temp1[j] = parent2.variables[j];
                 temp2[j] = parent1.variables[j];
             }
@@ -373,8 +405,11 @@ inline int max_fitness(vector<Individual> pop) {
     return max_index;
 }
 
-inline void ga(char* argv[], int** clauses, int numClauses, int numVariables) {
+inline Individual ga(char* argv[], int** clauses, int numClauses, int numVariables) {
     srand(time(0));
+    
+    Individual null;
+    null.fitness = -1;
     
     filename = argv[1];
     population_size = std::atoi(argv[2]);
@@ -387,12 +422,21 @@ inline void ga(char* argv[], int** clauses, int numClauses, int numVariables) {
     num_variables = numVariables;
     
     vector<Individual> population = gen_one(population_size, num_variables);
+    
     Individual best_ind;
     for (int i = 0; i < generations; i++) {
         
         // update fitnesses
         for (int j = 0; j < population_size; j++) {
             population[j].fitness = evaluateFitness(population[j].variables, numClauses, clauses);
+            if (population[j].fitness > 0.99) {
+                cout << "Solution Found in Generation " << i << endl;
+                cout << "Highest fitness of final : " << population[j].fitness << ". With solution ";
+                for (int i = 0; i < numVariables; i++) {
+                    cout << population[j].variables[i] << ",";
+                }
+                return population[j];
+            }
         }
         
         int curr_best = max_fitness(population);
@@ -407,7 +451,7 @@ inline void ga(char* argv[], int** clauses, int numClauses, int numVariables) {
             population = tournament(population);
         } else {
             cout << "Enter valid selection method ( rs, ts, bs )" << endl;
-            return;
+            return null;
         }
         
         // breeding
@@ -417,7 +461,7 @@ inline void ga(char* argv[], int** clauses, int numClauses, int numVariables) {
             population = uniform_crossover(population);
         } else {
             cout << "Enter valid crossover method ( 1c, uc )" << endl;
-            return;
+            return null;
         }
         
         //mutation
@@ -427,6 +471,7 @@ inline void ga(char* argv[], int** clauses, int numClauses, int numVariables) {
     for (int i = 0; i < numVariables; i++) {
         cout << best_ind.variables[i] << ",";
     }
+    return best_ind;
 }
 
 

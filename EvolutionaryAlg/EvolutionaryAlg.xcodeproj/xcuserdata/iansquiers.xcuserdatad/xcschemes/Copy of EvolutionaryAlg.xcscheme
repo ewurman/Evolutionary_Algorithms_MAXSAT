@@ -63,11 +63,11 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "/Users/iansquiers/Desktop/NI/project1-ga-pbil-for-maxsat/Evolutionary_Algorithms_MAXSAT/SanityTest.cnf"
+            argument = "/Users/iansquiers/Desktop/NI/project1-ga-pbil-for-maxsat/Evolutionary_Algorithms_MAXSAT/100PossibleTest.cnf"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "20"
+            argument = "6"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
