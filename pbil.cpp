@@ -35,10 +35,8 @@ inline void pbil(int numBools, int numClauses, int** clauses, int numSamples, do
 
 
     int i = 0;
-    while (i < iterations){
-        //printProbabilityVector(probabilities, numBools);
-        vector<Individual> samplesVector;// = new vector<Individuals>(numSamples);
-        //bool** samplesArray = new bool*[numSamples];
+    while (i < iterations){ 
+        vector<Individual> samplesVector;// = new vector<Individuals>(numSamples); 
         for (int i=0; i < numSamples; i++){
             // we want to generate a sample based on the probabilities
             Individual sample;
@@ -56,8 +54,7 @@ inline void pbil(int numBools, int numClauses, int** clauses, int numSamples, do
             }
             double fitness = evaluateFitness(vars, numClauses, clauses);
             sample.fitness = fitness;
-            sample.variables = vars;
-            // why this?? not samplesVector.push_back();
+            sample.variables = vars; 
             samplesVector.push_back(sample);
         } // end for loop creating samples
 
@@ -122,7 +119,7 @@ inline void pbil(int numBools, int numClauses, int** clauses, int numSamples, do
     */
     evaluateFitness2(bestSoFar.variables, numClauses, clauses);
     cout << "PBIL best sample had a fitness of: " << bestSoFar.fitness << endl;
-    cout << "Best solution found on the "<<i<<"th iteration"<<endl;
+    cout << "Best solution found on the "<<bestIter<<"th iteration"<<endl;
     printIndividualAsProbabilities(bestSoFar, numBools);
 }
 

@@ -25,16 +25,6 @@ static char * algorithm;
 static int num_variables;
 
 
-//string filename;
-//static int population_size;
-//string selection;
-//string crossover;
-//static double cprobablity;
-//static double mprobablity;
-//static int generations;
-//string * algorithm;
-//static int num_variables;
-
 
 inline vector<Individual> gen_one(int population_size, int num_variables) {
     // Generate Population
@@ -96,16 +86,14 @@ inline vector<Individual> rank_selection( vector<Individual> pop ) {
     vector<Individual> selected_pop;
     
     // sort the population fittest to least fit
-    std::sort (pop.begin(), pop.end());
-    cout << "Best fitenss: " << pop[pop.size()-1].fitness << " worst fitness: " << pop[0].fitness << endl;
+    std::sort (pop.begin(), pop.end()); 
     
     double * probability_of = probablities_by_rank();
     for (int i = 0; i < population_size; i++) {
         double r = (double)rand() / (double)RAND_MAX;
         for (int j = population_size; j > 0; j--) {
             if (r < probability_of[j]) {
-                selected_pop.push_back(copyForBreeding(pop[j - 1], num_variables));
-                // std::cout << "Selecting rank: " << j << endl;
+                selected_pop.push_back(copyForBreeding(pop[j - 1], num_variables)); 
                 break;
             }
         }
@@ -123,8 +111,7 @@ inline vector<Individual> rank_selection( vector<Individual> pop ) {
 inline double boltz_sum(vector<Individual> pop) {
     double sum = 0;
     for (unsigned i = 0; i < pop.size(); i++) {
-        sum += exp(pop[i].fitness);
-        //cout << pop[i].fitness << " " << exp(pop[i].fitness) << endl;
+        sum += exp(pop[i].fitness); 
     }
     return sum;
 }
@@ -137,8 +124,7 @@ inline double * probablities_by_boltz(vector<Individual> pop) {
     for (int i = (population_size); i >= 0; i--) {
         curr_bound = last_pos + (exp(pop[i].fitness) / sum);
         probability_of[i] = curr_bound;
-        last_pos = curr_bound;
-        //cout << i << ' '  << curr_bound << endl;
+        last_pos = curr_bound; 
     }
     return probability_of;
 }
@@ -149,8 +135,7 @@ inline vector<Individual> boltzmann_selection( vector<Individual> pop ) {
     vector<Individual> selected_pop;
     
     // sort the population least to most fit
-    std::sort (pop.begin(), pop.end());
-    //cout << "Best fitenss: " << pop[pop.size()-1].fitness << " worst fitness: " << pop[0].fitness << endl;
+    std::sort (pop.begin(), pop.end()); 
     
     double * probability_of = probablities_by_boltz(pop); // least to most probable by bound
     for (int i = 0; i < population_size; i++) {
@@ -160,8 +145,7 @@ inline vector<Individual> boltzmann_selection( vector<Individual> pop ) {
                 selected_pop.push_back(copyForBreeding(pop[j - 1], num_variables));
                 break;
             }
-            if (j == 1) {
-                //cout << r << ' ' << probability_of[1] << " I shouldnt technically get here" << endl;
+            if (j == 1) { 
                 // but because of rounding the bounds are not always perfect... we'll give the most fit a boost
                 selected_pop.push_back(copyForBreeding(pop[population_size - 1], num_variables));
             }
@@ -288,8 +272,7 @@ inline vector<Individual> one_point(vector<Individual> pop) {
         
         double r = (double)rand() / (double)RAND_MAX;
         
-        if (r < cprobablity) { // run crossover
-            //cout << "crossing over" << endl;
+        if (r < cprobablity) { // run crossover 
             int crossover_loc = rand() % num_variables;
             for (int j = 0; j < crossover_loc; j++) {
                 bool temp = parent1.variables[j];
@@ -374,22 +357,25 @@ inline Individual ga(char* args[], int** clauses, int numClauses, int numVariabl
     
     double global_best = 0;
     Individual global_best_ind;
+    int bestIter = 0; //iteration we find the best individual
     Individual curr_best_ind;
     for (int gen = 0; gen < generations; gen++) {
         
         // update fitnesses
         for (int i = 0; i < population_size; i++) {
             population[i].fitness = evaluateFitness(population[i].variables, numClauses, clauses);
+           
             
             // if solution found
-//            if (population[i].fitness > 0.99) {
-//                cout << "Solution Found in Generation " << gen << endl;
-//                cout << "Highest fitness of final : " << population[i].fitness << ". With solution ";
-//                for (int k = 0; k < numVariables; k++) {
-//                    cout << population[i].variables[k] << ",";
-//                }
-//                return population[i];
-//            }
+            if (population[i].fitness == 1) {
+                cout << "Solution Found in Generation " << gen << endl;
+                cout << "Highest fitness of final : " << population[i].fitness << ". With solution ";
+                for (int k = 0; k < numVariables; k++) {
+                    cout << population[i].variables[k] << ",";
+                }
+                return population[i];
+            }
+            
         }
         
         // selection
@@ -422,11 +408,14 @@ inline Individual ga(char* args[], int** clauses, int numClauses, int numVariabl
         if (curr_best_ind.fitness > global_best) {
             global_best = curr_best_ind.fitness;
             global_best_ind = curr_best_ind;
+            bestIter = gen;
         }
-        // print_ind(curr_best_ind, 0);
-    }
-    cout << endl << "BEST INDIVIDUAL" << endl;
+        
+    } 
+    // Now print required output
+    evaluateFitness2(global_best_ind.variables, numClauses, clauses); 
     print_ind(global_best_ind, numVariables);
+    cout << "Best individual found on the " << bestIter <<" generation"<<endl;
     return global_best_ind;
 }
 

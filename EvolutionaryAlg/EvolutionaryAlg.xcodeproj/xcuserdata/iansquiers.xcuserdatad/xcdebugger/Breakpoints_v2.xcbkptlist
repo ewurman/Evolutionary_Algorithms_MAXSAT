@@ -63,7 +63,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "255"
             endingLineNumber = "255"
-            landmarkName = "mutate( vector&lt;Individual&gt; pop )"
+            landmarkName = "one_point(vector&lt;Individual&gt; pop)"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -95,7 +95,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "164"
             endingLineNumber = "164"
-            landmarkName = "boltzmann_selection( vector&lt;Individual&gt; pop )"
+            landmarkName = "tournament( vector&lt;Individual&gt; pop )"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -111,7 +111,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "166"
             endingLineNumber = "166"
-            landmarkName = "boltzmann_selection( vector&lt;Individual&gt; pop )"
+            landmarkName = "tournament( vector&lt;Individual&gt; pop )"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -127,7 +127,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "142"
             endingLineNumber = "142"
-            landmarkName = "probablities_by_boltz(vector&lt;Individual&gt; pop)"
+            landmarkName = "boltzmann_selection( vector&lt;Individual&gt; pop )"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -143,7 +143,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "144"
             endingLineNumber = "144"
-            landmarkName = "probablities_by_boltz(vector&lt;Individual&gt; pop)"
+            landmarkName = "boltzmann_selection( vector&lt;Individual&gt; pop )"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
@@ -159,7 +159,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "143"
             endingLineNumber = "143"
-            landmarkName = "probablities_by_boltz(vector&lt;Individual&gt; pop)"
+            landmarkName = "boltzmann_selection( vector&lt;Individual&gt; pop )"
             landmarkType = "9">
          </BreakpointContent>
       </BreakpointProxy>
