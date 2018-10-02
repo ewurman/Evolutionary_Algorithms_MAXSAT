@@ -24,7 +24,7 @@ void printClauses(int** clauses, int numClauses);
 
 int main(int argc, char* argv[]) {
     char* filename = argv[1];
-    cout << filename << endl; // need for output
+    cout << "filename: "<< filename << endl; // need for output
     if (DEBUG_ON){
         cout << argc << " arguments" << endl; 
     }
@@ -53,14 +53,21 @@ int main(int argc, char* argv[]) {
         clock_t start = clock();
 
         pbil(numVariables, numClauses, clauses, numSamples, posLR, negLR, mutateProb, mutateVal, numIterations);
+    
 
         double duration = (clock() - start) / (double) CLOCKS_PER_SEC;
         cout << "PBIL took "<< duration << " seconds" << endl;
     }
-    cout << "here" << endl;
+    
 
     if (!strcmp(argv[8], "g")) {
-        
+        clock_t start = clock();
+        ga(argv, clauses, numClauses, numVariables);
+
+        double duration = (clock() - start) / (double) CLOCKS_PER_SEC;
+        cout << "GA took "<< duration << " seconds" << endl;
+
+        /* 
         cout << endl << "Crossover = 0.2" << endl;
         argv[5] = (char*)"0.2";
         ga(argv, clauses, numClauses, numVariables);
@@ -78,7 +85,7 @@ int main(int argc, char* argv[]) {
         ga(argv, clauses, numClauses, numVariables);
         ga(argv, clauses, numClauses, numVariables);
         ga(argv, clauses, numClauses, numVariables);
-        
+        */
     }
     
     return 0;
