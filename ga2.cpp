@@ -70,7 +70,7 @@ inline double sum_to(int num) {
     for (int i = 0; i < num + 1; i++) {
         sum += i;
     }
-    cout << "sum = " << sum << endl;
+    //cout << "sum = " << sum << endl;
     return sum;
 }
 
@@ -92,6 +92,7 @@ inline double * probablities_by_rank() {
 
 // fills next pop with selected individuals ready for breeding
 inline vector<Individual> rank_selection( vector<Individual> pop ) {
+    
     vector<Individual> selected_pop;
     
     // sort the population fittest to least fit
@@ -102,14 +103,15 @@ inline vector<Individual> rank_selection( vector<Individual> pop ) {
     for (int i = 0; i < population_size; i++) {
         double r = (double)rand() / (double)RAND_MAX;
         // cout << "random came up with : " << r << endl;
-        for (int j = population_size; j > 0; j--) {
+        for (int j = population_size-1; j >= 0; j--) {
             if (r < probability_of[j]) {
-                selected_pop.push_back(copyForBreeding(pop[population_size - j], num_variables));
+                selected_pop.push_back(copyForBreeding(pop[j], num_variables));
                 // std::cout << "Selecting rank: " << j << endl;
                 break;
             }
         }
     }
+    delete[] probability_of;
     free_mem(pop);
     return selected_pop;
 }
@@ -136,6 +138,7 @@ inline double * probablities_by_boltz(vector<Individual> pop) {
         probability_of[i] = curr_bound;
         last_pos = curr_bound;
     }
+    
     return probability_of;
 }
 
@@ -151,15 +154,17 @@ inline vector<Individual> boltzmann_selection( vector<Individual> pop ) {
     double * probability_of = probablities_by_boltz(pop);
     for (int i = 0; i < population_size; i++) {
         double r = (double)rand() / (double)RAND_MAX;
-        // cout << "random came up with : " << r << endl;
-        for (int j = population_size; j > 0; j--) {
+        for (int j = population_size-1; j >= 0; j--) {
             if (r < probability_of[j]) {
-                selected_pop.push_back(copyForBreeding(pop[population_size - j], num_variables));
-                // std::cout << "Selecting rank: " << j << endl;
+                selected_pop.push_back(copyForBreeding(pop[j], num_variables));
                 break;
+            }
+            if (j == population_size) {
+                cout << "I should never get here" << endl;
             }
         }
     }
+    delete[] probability_of;
     free_mem(pop);
     return selected_pop;
 }
@@ -344,7 +349,8 @@ inline vector<Individual> uniform(vector<Individual> pop) {
 
 inline Individual ga(char* args[], int** clauses, int numClauses, int numVariables) {
     srand((unsigned)time(0));
-    
+    cout << "here111" << endl;
+
     Individual null;
     null.fitness = -1;
     
@@ -360,42 +366,42 @@ inline Individual ga(char* args[], int** clauses, int numClauses, int numVariabl
     
     vector<Individual> population = gen_one(population_size, num_variables);
     
+    // Individual global_best;
     Individual best_ind;
-    for (int i = 0; i < generations; i++) {
+    for (int gen = 0; gen < generations; gen++) {
         
         // update fitnesses
-        for (int j = 0; j < population_size; j++) {
-            population[j].fitness = evaluateFitness(population[j].variables, numClauses, clauses);
-            if (population[j].fitness > 0.99) {
-                cout << "Solution Found in Generation " << i << endl;
-                cout << "Highest fitness of final : " << population[j].fitness << ". With solution ";
-                for (int i = 0; i < numVariables; i++) {
-                    cout << population[j].variables[i] << ",";
+        for (int i = 0; i < population_size; i++) {
+            population[i].fitness = evaluateFitness(population[i].variables, numClauses, clauses);
+            
+            // if solution found
+            if (population[i].fitness > 0.99) {
+                cout << "Solution Found in Generation " << gen << endl;
+                cout << "Highest fitness of final : " << population[i].fitness << ". With solution ";
+                for (int k = 0; k < numVariables; k++) {
+                    cout << population[i].variables[k] << ",";
                 }
-                return population[j];
+                return population[i];
             }
         }
         
         int curr_best = max_fitness(population);
         best_ind = population[curr_best];
         
-        
-//        cout << "Selecting :" << selection << endl;
-//        print_pop(population, num_variables);
         // selection
         if (!strcmp(selection, "rs")) {
             population = rank_selection(population);
         } else if (!strcmp(selection, "bs")) {
+            cout << "here" << endl;
             population = boltzmann_selection(population);
         } else if (!strcmp(selection, "ts")) {
+            cout << "here" << endl;
             population = tournament(population);
         } else {
             cout << "Enter valid selection method ( rs, ts, bs )" << endl;
             return null;
         }
         
-//        cout << "CROSSING OVER WITH :" << crossover  << endl;
-//        print_pop(population, num_variables);
         // breeding
         if (!strcmp(crossover, "1c")) {
             population = one_point(population);
@@ -406,157 +412,13 @@ inline Individual ga(char* args[], int** clauses, int numClauses, int numVariabl
             return null;
         }
         
-//        cout << "MUTATING"  << endl;
         //mutation
         population = mutate(population);
-//        print_pop(population, numVariables);
-        cout << "Highest fitness of generation : " << i << " with fitness"<< best_ind.fitness << ". With solution ";
-        for (int i = 0; i < numVariables; i++) {
-            cout << best_ind.variables[i] << ",";
-        }
+        int pop_size = population.size();
+        print_ind(best_ind, numVariables);
     }
-    
-    cout << "Highest fitness of final : " << best_ind.fitness << ". With solution ";
-    for (int i = 0; i < numVariables; i++) {
-        cout << best_ind.variables[i] << ",";
-    }
-    cout << endl;
     return best_ind;
 }
-
-
-
-
-
-
-
-
-
-
-//
-//inline vector<Individual> one_point_crossover( vector<Individual> pop ) {
-//    vector<Individual> breeded_pop;
-//    vector<bool *> free_me;
-//    bool * temp1;
-//    bool * temp2;
-//    double pop_size = pop.size();
-//    for (int i = 0; i < (pop_size / 2); i++) {
-//        int r1 =  rand() % pop.size();
-//        int r2 =  rand() % pop.size();
-//        while (r2 == r1) {
-//            r2 = rand() % pop.size();
-//        }
-//        Individual parent1 = pop[r1];
-//        Individual parent2 = pop[r2];
-//        double r = (double)rand() / (double)RAND_MAX;
-//        if (r < cprobablity) { // run crossover
-//            cout << "crossing over" << endl;
-//            print_ind(parent1);
-//            print_ind(parent2);
-//
-//            temp1 = new (nothrow) bool[num_variables];
-//            temp2 = new (nothrow) bool[num_variables];
-//            int crossover_loc = rand() % num_variables;
-//            cout << crossover_loc << endl;
-//            for (int j = 0; j < crossover_loc; j++) {
-//                temp1[j] = parent1.variables[j];
-//                temp2[j] = parent2.variables[j];
-//            }
-//            for (int j = crossover_loc; j < num_variables; j++) {
-//                temp1[j] = parent2.variables[j];
-//                temp2[j] = parent1.variables[j];
-//            }
-//            free_me.push_back(parent1.variables);
-//            free_me.push_back(parent2.variables);
-//            parent1.variables = temp1;
-//            parent2.variables = temp2;
-//            breeded_pop.push_back(parent1);
-//            breeded_pop.push_back(parent2);
-//            print_ind(parent1);
-//            print_ind(parent2);
-//            double first = max(r1, r2);
-//            double second = min(r1, r2);
-//            pop.erase(pop.begin()+first);
-//            pop.erase(pop.begin()+second);
-//        }
-//        else {
-//            breeded_pop.push_back(parent1);
-//            breeded_pop.push_back(parent2);
-//            double first = max(r1, r2);
-//            double second = min(r1, r2);
-//            pop.erase(pop.begin()+first);
-//            pop.erase(pop.begin()+second);
-//        }
-//    }
-//    free_mem(free_me);
-//    free_me.clear();
-//    return breeded_pop;
-//}
-
-
-//
-//inline vector<Individual> uniform_crossover( vector<Individual> pop ) {
-//    vector<Individual> breeded_pop;
-//    vector<bool *> free_me;
-//    bool * temp1;
-//    bool * temp2;
-//    double pop_size = pop.size();
-//    for (int i = 0; i < (pop_size / 2); i++) {
-//        int r1 =  rand() % pop.size();
-//        int r2 =  rand() % pop.size();
-//        while (r2 == r1) {
-//            r2 =rand() % pop.size();
-//        }
-//        Individual parent1 = pop[r1];
-//        Individual parent2 = pop[r2];
-//        double r = (double)rand() / (double)RAND_MAX;
-//        if (r < cprobablity) { // run crossover
-//            cout << "crossing over" << endl;
-//            print_ind(parent1);
-//            print_ind(parent2);
-//
-//            temp1 = new (nothrow) bool[num_variables];
-//            temp2 = new (nothrow) bool[num_variables];
-//
-//            for (int j = 0; j < num_variables; ++j) {
-//                r = (double)rand() / (double)RAND_MAX;
-//                if (r > 0.5) {
-//                    temp1[j] = parent1.variables[j];
-//                    temp2[j] = parent2.variables[j];
-//                }
-//                else {
-//                    temp1[j] = parent2.variables[j];
-//                    temp2[j] = parent1.variables[j];
-//                }
-//            }
-//
-//            free_me.push_back(parent1.variables);
-//            free_me.push_back(parent2.variables);
-//            parent1.variables = temp1;
-//            parent2.variables = temp2;
-//            breeded_pop.push_back(parent1);
-//            breeded_pop.push_back(parent2);
-//            print_ind(parent1);
-//            print_ind(parent2);
-//            double first = max(r1, r2);
-//            double second = min(r1, r2);
-//            pop.erase(pop.begin()+first);
-//            pop.erase(pop.begin()+second);
-//        }
-//        else {
-//            breeded_pop.push_back(parent1);
-//            breeded_pop.push_back(parent2);
-//            double first = max(r1, r2);
-//            double second = min(r1, r2);
-//            pop.erase(pop.begin()+first);
-//            pop.erase(pop.begin()+second);
-//        }
-//    }
-//    free_mem(pop);
-//    free_me.clear();
-//    return breeded_pop;
-//}
-
 
 
 

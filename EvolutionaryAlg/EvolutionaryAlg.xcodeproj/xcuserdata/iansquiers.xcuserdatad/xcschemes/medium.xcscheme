@@ -63,7 +63,7 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "/Users/iansquiers/Desktop/NI/project1-ga-pbil-for-maxsat/maxsat-problems/maxsat-crafted/bipartite/maxcut-140-630-0.7//Users/iansquiers/Desktop/NI/project1-ga-pbil-for-maxsat/maxsat-problems/maxsat-crafted/bipartite/maxcut-140-630-0.7/Users/iansquiers/Desktop/NI/project1-ga-pbil-for-maxsat/maxsat-problems/maxsat-crafted/bipartite/maxcut-140-630-0.7/Users/iansquiers/Desktop/NI/project1-ga-pbil-for-maxsat/maxsat-problems/maxsat-crafted/bipartite/maxcut-140-630-0.7/maxcut-140-630-0.7-9.cnf"
+            argument = "/Users/iansquiers/Desktop/NI/project1-ga-pbil-for-maxsat/Evolutionary_Algorithms_MAXSAT/t3pm3-5555.spn.cnf"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
@@ -71,7 +71,7 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "rs"
+            argument = "ts"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
@@ -79,23 +79,20 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "0.5"
+            argument = "0.7"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "0.5"
+            argument = "0.01"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "50"
+            argument = "2000"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "g"
+            argument = "ga"
             isEnabled = "YES">
-         </CommandLineArgument>
-         <CommandLineArgument
-            isEnabled = "NO">
          </CommandLineArgument>
       </CommandLineArguments>
       <AdditionalOptions>

@@ -39,7 +39,7 @@ inline double evaluateFitness(bool* vars, int numClauses, int** clauses){
             bool negate = index < 0;
             if (negate){
                 index *= -1; //need it to be an index
-                clauseEval = clauseEval || !vars[index -1];
+                clauseEval = clauseEval || !vars[index - 1];
             }
             else {
                 // clauses has 1-based indices, vars 0-based so subtract 1

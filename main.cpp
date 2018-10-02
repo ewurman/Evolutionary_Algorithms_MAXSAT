@@ -57,14 +57,10 @@ int main(int argc, char* argv[]) {
         double duration = (clock() - start) / (double) CLOCKS_PER_SEC;
         cout << "PBIL took "<< duration << " seconds" << endl;
     }
-    
-    if (!strcmp(argv[8], "ga")) {
+    cout << "here" << endl;
+
+    if (!strcmp(argv[8], "g")) {
         ga(argv, clauses, numClauses, numVariables);
-        // run GA tests here
-        // filename, population, selection, crossover cprobablitity, mprobability, generations, algorithm
-        //string test[9] = {"empty","/Users/iansquiers/Desktop/NI/project1-ga-pbil-for-maxsat/Evolutionary_Algorithms_MAXSAT/100PossibleTest.cnf","6","rs","1c","0.5","0.5","1","ga"};
-        
-        //ga(test, clauses, numClauses, numVariables);
     }
     
     return 0;
