@@ -382,14 +382,14 @@ inline Individual ga(char* args[], int** clauses, int numClauses, int numVariabl
             population[i].fitness = evaluateFitness(population[i].variables, numClauses, clauses);
             
             // if solution found
-            if (population[i].fitness > 0.99) {
-                cout << "Solution Found in Generation " << gen << endl;
-                cout << "Highest fitness of final : " << population[i].fitness << ". With solution ";
-                for (int k = 0; k < numVariables; k++) {
-                    cout << population[i].variables[k] << ",";
-                }
-                return population[i];
-            }
+//            if (population[i].fitness > 0.99) {
+//                cout << "Solution Found in Generation " << gen << endl;
+//                cout << "Highest fitness of final : " << population[i].fitness << ". With solution ";
+//                for (int k = 0; k < numVariables; k++) {
+//                    cout << population[i].variables[k] << ",";
+//                }
+//                return population[i];
+//            }
         }
         
         // selection
