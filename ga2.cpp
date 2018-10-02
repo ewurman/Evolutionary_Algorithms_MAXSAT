@@ -97,7 +97,7 @@ inline vector<Individual> rank_selection( vector<Individual> pop ) {
     
     // sort the population fittest to least fit
     std::sort (pop.begin(), pop.end());
-    cout << "Best fitenss: " << pop[pop.size()-1].fitness << " worst fitness: " << pop[0].fitness << endl;
+    //cout << "Best fitenss: " << pop[pop.size()-1].fitness << " worst fitness: " << pop[0].fitness << endl;
     
     double * probability_of = probablities_by_rank();
     for (int i = 0; i < population_size; i++) {
