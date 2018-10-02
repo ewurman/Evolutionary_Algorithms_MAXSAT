@@ -7,7 +7,7 @@
 		<key>easy.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>2</integer>
+			<integer>5</integer>
 		</dict>
 		<key>hard.xcscheme</key>
 		<dict>
@@ -15,6 +15,21 @@
 			<integer>0</integer>
 		</dict>
 		<key>medium.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>4</integer>
+		</dict>
+		<key>phat.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>2</integer>
+		</dict>
+		<key>s3.xcscheme</key>
+		<dict>
+			<key>orderHint</key>
+			<integer>3</integer>
+		</dict>
+		<key>t3.xcscheme</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>1</integer>

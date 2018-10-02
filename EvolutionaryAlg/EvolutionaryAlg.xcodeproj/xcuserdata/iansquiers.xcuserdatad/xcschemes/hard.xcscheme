@@ -71,11 +71,11 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "rs"
+            argument = "ts"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "1c"
+            argument = "1p"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
