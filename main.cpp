@@ -60,21 +60,26 @@ int main(int argc, char* argv[]) {
     cout << "here" << endl;
 
     if (!strcmp(argv[8], "g")) {
-        
         cout << endl << "Crossover = 0.2" << endl;
-        argv[5] = (char*)"0.2";
+        argv[6] = (char*)"0.2";
         ga(argv, clauses, numClauses, numVariables);
         ga(argv, clauses, numClauses, numVariables);
         ga(argv, clauses, numClauses, numVariables);
         
-        cout << endl << "Crossover = 0.5" << endl;
-        argv[5] = (char*)"0.5";
+        cout << endl << "Crossover = 0.1" << endl;
+        argv[6] = (char*)"0.1";
+        ga(argv, clauses, numClauses, numVariables);
+        ga(argv, clauses, numClauses, numVariables);
+        ga(argv, clauses, numClauses, numVariables);
+        
+        cout << endl << "mutation = 0.01" << endl;
+        argv[6] = (char*)"0.01";
         ga(argv, clauses, numClauses, numVariables);
         ga(argv, clauses, numClauses, numVariables);
         ga(argv, clauses, numClauses, numVariables);
 
-        cout << endl << "Crossover = 0.9" << endl;
-        argv[5] = (char*)"0.9";
+        cout << endl << "mutation = 0.00" << endl;
+        argv[6] = (char*)"0.0";
         ga(argv, clauses, numClauses, numVariables);
         ga(argv, clauses, numClauses, numVariables);
         ga(argv, clauses, numClauses, numVariables);
