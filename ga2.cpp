@@ -128,6 +128,7 @@ inline double boltz_sum(vector<Individual> pop) {
     }
     return sum;
 }
+
 inline double * probablities_by_boltz(vector<Individual> pop) {
     double sum = boltz_sum(pop);
     double last_pos = 0;
@@ -159,7 +160,7 @@ inline vector<Individual> boltzmann_selection( vector<Individual> pop ) {
                 selected_pop.push_back(copyForBreeding(pop[j], num_variables));
                 break;
             }
-            if (j == population_size) {
+            if (j == population_size - 1) {
                 cout << "I should never get here" << endl;
             }
         }
@@ -349,13 +350,16 @@ inline vector<Individual> uniform(vector<Individual> pop) {
 
 inline Individual ga(char* args[], int** clauses, int numClauses, int numVariables) {
     srand((unsigned)time(0));
-    cout << "here111" << endl;
 
     Individual null;
     null.fitness = -1;
     
     filename = args[1];
     population_size = std::atoi(args[2]);
+    if (population_size % 2 == 1) {
+        cout << "please enter an even population number... sorry" << endl;
+        return null;
+    }
     selection = args[3];
     crossover = args[4];
     cprobablity = std::atof(args[5]);
@@ -366,8 +370,9 @@ inline Individual ga(char* args[], int** clauses, int numClauses, int numVariabl
     
     vector<Individual> population = gen_one(population_size, num_variables);
     
-    // Individual global_best;
-    Individual best_ind;
+    double global_best = 0;
+    Individual global_best_ind;
+    Individual curr_best_ind;
     for (int gen = 0; gen < generations; gen++) {
         
         // update fitnesses
@@ -385,17 +390,12 @@ inline Individual ga(char* args[], int** clauses, int numClauses, int numVariabl
             }
         }
         
-        int curr_best = max_fitness(population);
-        best_ind = population[curr_best];
-        
         // selection
         if (!strcmp(selection, "rs")) {
             population = rank_selection(population);
         } else if (!strcmp(selection, "bs")) {
-            cout << "here" << endl;
             population = boltzmann_selection(population);
         } else if (!strcmp(selection, "ts")) {
-            cout << "here" << endl;
             population = tournament(population);
         } else {
             cout << "Enter valid selection method ( rs, ts, bs )" << endl;
@@ -414,10 +414,18 @@ inline Individual ga(char* args[], int** clauses, int numClauses, int numVariabl
         
         //mutation
         population = mutate(population);
-        int pop_size = population.size();
-        print_ind(best_ind, numVariables);
+        
+        int curr_best = max_fitness(population);
+        curr_best_ind = population[curr_best];
+        if (curr_best_ind.fitness > global_best) {
+            global_best = curr_best_ind.fitness;
+            global_best_ind = curr_best_ind;
+        }
+        print_ind(curr_best_ind, 0);
     }
-    return best_ind;
+    
+    print_ind(global_best_ind, numVariables);
+    return global_best_ind;
 }
 
 
