@@ -365,7 +365,7 @@ inline Individual ga(char* args[], int** clauses, int numClauses, int numVariabl
         for (int i = 0; i < population_size; i++) {
             population[i].fitness = evaluateFitness(population[i].variables, numClauses, clauses);
            
-            /*
+            
             // if solution found
             if (population[i].fitness == 1) {
                 cout << "Solution Found in Generation " << gen << endl;
@@ -375,7 +375,7 @@ inline Individual ga(char* args[], int** clauses, int numClauses, int numVariabl
                 }
                 return population[i];
             }
-            */
+            
         }
         
         // selection
