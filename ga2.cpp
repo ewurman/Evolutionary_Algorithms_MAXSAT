@@ -82,9 +82,9 @@ inline double * probablities_by_rank() {
     double curr_bound = 0;
     double * probability_of = new double [population_size + 1]; // no such thing as rank 0
     for (int i = population_size; i > 0; i--) {
-        curr_bound = (i+last_pos) / sum;
+        curr_bound = last_pos + (i / sum);
         probability_of[i] = curr_bound;
-        last_pos = last_pos + i;
+        last_pos = curr_bound;
     }
     return probability_of;
 }
@@ -102,10 +102,9 @@ inline vector<Individual> rank_selection( vector<Individual> pop ) {
     double * probability_of = probablities_by_rank();
     for (int i = 0; i < population_size; i++) {
         double r = (double)rand() / (double)RAND_MAX;
-        // cout << "random came up with : " << r << endl;
-        for (int j = population_size-1; j >= 0; j--) {
+        for (int j = population_size; j > 0; j--) {
             if (r < probability_of[j]) {
-                selected_pop.push_back(copyForBreeding(pop[j], num_variables));
+                selected_pop.push_back(copyForBreeding(pop[j - 1], num_variables));
                 // std::cout << "Selecting rank: " << j << endl;
                 break;
             }
@@ -125,6 +124,7 @@ inline double boltz_sum(vector<Individual> pop) {
     double sum = 0;
     for (unsigned i = 0; i < pop.size(); i++) {
         sum += exp(pop[i].fitness);
+        //cout << pop[i].fitness << " " << exp(pop[i].fitness) << endl;
     }
     return sum;
 }
@@ -134,12 +134,12 @@ inline double * probablities_by_boltz(vector<Individual> pop) {
     double last_pos = 0;
     double curr_bound = 0;
     double * probability_of = new double [population_size + 1]; // no such thing as rank 0
-    for (int i = population_size; i > 0; i--) {
+    for (int i = (population_size); i >= 0; i--) {
         curr_bound = last_pos + (exp(pop[i].fitness) / sum);
         probability_of[i] = curr_bound;
         last_pos = curr_bound;
+        //cout << i << ' '  << curr_bound << endl;
     }
-    
     return probability_of;
 }
 
@@ -148,20 +148,22 @@ inline double * probablities_by_boltz(vector<Individual> pop) {
 inline vector<Individual> boltzmann_selection( vector<Individual> pop ) {
     vector<Individual> selected_pop;
     
-    // sort the population fittest to least fit
+    // sort the population least to most fit
     std::sort (pop.begin(), pop.end());
-    cout << "Best fitenss: " << pop[pop.size()-1].fitness << " worst fitness: " << pop[0].fitness << endl;
+    //cout << "Best fitenss: " << pop[pop.size()-1].fitness << " worst fitness: " << pop[0].fitness << endl;
     
-    double * probability_of = probablities_by_boltz(pop);
+    double * probability_of = probablities_by_boltz(pop); // least to most probable by bound
     for (int i = 0; i < population_size; i++) {
         double r = (double)rand() / (double)RAND_MAX;
-        for (int j = population_size-1; j >= 0; j--) {
+        for (int j = population_size; j > 0; j--) {
             if (r < probability_of[j]) {
-                selected_pop.push_back(copyForBreeding(pop[j], num_variables));
+                selected_pop.push_back(copyForBreeding(pop[j - 1], num_variables));
                 break;
             }
-            if (j == population_size - 1) {
-                cout << "I should never get here" << endl;
+            if (j == 1) {
+                //cout << r << ' ' << probability_of[1] << " I shouldnt technically get here" << endl;
+                // but because of rounding the bounds are not always perfect... we'll give the most fit a boost
+                selected_pop.push_back(copyForBreeding(pop[population_size - 1], num_variables));
             }
         }
     }
@@ -421,9 +423,9 @@ inline Individual ga(char* args[], int** clauses, int numClauses, int numVariabl
             global_best = curr_best_ind.fitness;
             global_best_ind = curr_best_ind;
         }
-        print_ind(curr_best_ind, 0);
+        // print_ind(curr_best_ind, 0);
     }
-    
+    cout << endl << "BEST INDIVIDUAL" << endl;
     print_ind(global_best_ind, numVariables);
     return global_best_ind;
 }
