@@ -44,12 +44,11 @@ inline void pbil(int numBools, int numClauses, int** clauses, int numSamples, do
              
             for(int j=0; j < numBools; j++){
                 double randNum = (double) rand() / RAND_MAX;
-                if (randNum < probabilities[j]){
-                    // set to false
-                    vars[j] = false;
+                if (randNum < probabilities[j]){ 
+                    vars[j] = true;
                 }
                 else {
-                    vars[j] = true;
+                    vars[j] = false;
                 }
             }
             double fitness = evaluateFitness(vars, numClauses, clauses);
